@@ -1,0 +1,21 @@
+.login-heading {
+    color: var(--primary-color-shade);
+    font-family: sans-serif;
+    font-weight: bolder;
+    font-size: 48px;
+    text-align: center;
+    margin-top: 100px;
+}
+
+.login-heading::after{
+    content: '';
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    background-color: var(--primary-color-shade);
+    width: 10%;
+    height: 7px;
+    margin-top: 5px;
+    border-radius: 3px;
+    transition: all 0.5s;
+}

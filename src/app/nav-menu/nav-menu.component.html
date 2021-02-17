@@ -1,1 +1,12 @@
-<p>nav-menu works!</p>
+<div class="nav-menu">
+    <ul class="nav-list">
+        <li [routerLink]="'/'">Home</li>
+        <li>About</li>
+        <li *ngIf="authenticated">Account</li>
+        <li *ngIf="authenticated; else signIn" (click)="signOut()">Sign Out</li>
+    </ul>
+</div>
+
+<ng-template #signIn>
+    <li [routerLink]="'/login'">Sign In</li>
+</ng-template>

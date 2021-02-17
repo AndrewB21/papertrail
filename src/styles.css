@@ -1,1 +1,37 @@
 /* You can add global styles to this file, and also import other style files */
+@import '~firebaseui/dist/firebaseui.css';
+
+:root {
+    --primary-color: #6544e9;
+    --primary-color-rgb: 101,68,233;
+    --primary-color-contrast: #fff;
+    --primary-color-tint: #8262ff;
+    --primary-color-shade: #4b32ae;
+    --secondary-color: #30206f;
+    --secondary-color-contrast: #fff;
+    --secondary-color-shade: #1a123d;
+    --patreon-color: #eb5d40;
+    --patreon-color-shade: #c4462d;
+    --heading-color: #6544e9;
+    --heading-color-tint: #6544e9;
+    --heading-color-shade: #4b32ae;
+    --text-color: #1a123d;
+    --text-color-contrast: hsla(0,0%,100%,0.75);
+    --text-color-tint: rgba(101,68,233,0.9);
+    --link-color: #6544e9;
+    --link-color-active: #4b32ae;
+    --background-color: #fff;
+    --background-color-rgb: 255,255,255;
+    --background-color-shade: #f6f5fd;
+    --footer-color: #4b32ae;
+    --transition-color: #4b32ae;
+    --overlay-color: rgba(26,18,61,0.5);
+    --error-color: #f03;
+    --success-color: #4bb543;
+    --particle-background-text: #fff;
+    --particle-background-shade: #f6f5fd;
+}
+
+body {
+    margin: 0;
+}

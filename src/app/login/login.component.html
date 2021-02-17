@@ -1,2 +1,6 @@
-<p>login works!</p>
-<div class="firebaseui-auth-container"></div>
+<div class="login-container">
+    <h1 class="login-heading">Sign in to PaperTrail</h1>
+    <firebase-ui 
+    (signInSuccessWithAuthResult)="successCallback($event)"
+    (signInFailure)="errorCallback($event)"></firebase-ui>
+</div>

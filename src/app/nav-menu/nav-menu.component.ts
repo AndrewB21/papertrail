@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { AuthenticationService } from '../services/authentication.service';
 
 @Component({
   selector: 'app-nav-menu',
@@ -6,10 +8,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./nav-menu.component.css']
 })
 export class NavMenuComponent implements OnInit {
+  public authenticated: boolean;
 
-  constructor() { }
+  public constructor(private authService: AuthenticationService) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
+    this.authService.checkAuthState().subscribe(result => this.authenticated = result);
+  }
+
+  public signOut() {
+    this.authService.signOut();
+    this.authenticated = false;
   }
 
 }
