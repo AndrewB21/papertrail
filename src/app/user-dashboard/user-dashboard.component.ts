@@ -17,5 +17,6 @@ export class UserDashboardComponent implements OnInit {
   public ngOnInit(): void {
     this.authenticated = this.route.snapshot.data['authenticated'];
     this.popularAnime = this.route.snapshot.data['popularAnime'].data;
+    this.watchingNow = this.route.snapshot.data['watchingNow'];
   }
 }
