@@ -1,1 +1,26 @@
-<p>user-dashboard works!</p>
+<div class="dashboard">
+    <section class="popular">
+        <div class="dash-section-header">
+            <h2>Popular Anime</h2>
+        </div>
+        <div class="dash-section-content" *ngFor="let anime of popularAnime">
+            <app-content-card [anime]="anime"></app-content-card>
+        </div>
+    </section>
+    <section class="Watching Now">
+        <div class="dash-section-header">
+            <h2>Watching Now</h2>
+        </div>
+        <div class="dash-section-content">
+
+        </div>
+    </section>
+    <section class="Recommended">
+        <div class="dash-section-header">
+            <h2>Recommended Anime</h2>
+        </div>
+        <div class="dash-section-content">
+
+        </div>
+    </section>
+</div>
