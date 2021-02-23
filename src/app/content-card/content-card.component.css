@@ -1,0 +1,29 @@
+.content-card {
+    width: 200px;
+    height: 300px;
+    border-radius: 20px;
+    margin: 10px;
+}
+
+.content-card p {
+    text-align: center;
+    color: white;
+    font-weight: bolder;
+    font-size: 1.1em;
+    padding: 5px;
+}
+
+.content-card-internal {
+    width: inherit;
+    height: inherit;
+    border-radius: inherit;
+    background-color: rgba(0,0,0,0.7);
+    visibility: hidden;
+    opacity: 0;
+    transition: all 0.5s;
+}
+
+.content-card:hover .content-card-internal {
+    visibility: visible;
+    opacity: 1;
+}

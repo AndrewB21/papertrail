@@ -3,6 +3,9 @@ import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { UserDashboardComponent } from './user-dashboard/user-dashboard.component';
 import { UserDashboardResolver } from './user-dashboard/user-dashboard.resolver';
+import { ContentCardComponent } from './content-card/content-card.component';
+import { DashboardAnimeResolver } from './user-dashboard/dashboard-anime.resolver';
+import { CommonModule } from '@angular/common';
 
 const routes: Routes = [
   {
@@ -11,6 +14,7 @@ const routes: Routes = [
     pathMatch: 'full',
     resolve: {
       authenticated: UserDashboardResolver,
+      popularAnime: DashboardAnimeResolver,
     }
   },
   {
@@ -20,7 +24,14 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  imports: [
+    RouterModule.forRoot(routes),
+    CommonModule,
+  ],
+  exports: [RouterModule],
+  declarations: [
+    UserDashboardComponent,
+    ContentCardComponent
+  ],
 })
 export class AppRoutingModule { }

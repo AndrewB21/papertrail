@@ -1,0 +1,7 @@
+<div 
+class="content-card"
+[ngStyle]="{'background-image': 'url(' + anime.attributes.posterImage.small + ')'}">
+    <div class="content-card-internal">
+        <p>{{anime.attributes.titles.en ? anime.attributes.titles.en : anime.attributes.titles.en_us}}</p>
+    </div>
+</div>
