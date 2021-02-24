@@ -3,6 +3,7 @@ export class Anime {
      ageRating: string;
      ageRatingGuide: string;
      averageRating: number;
+     slug: string;
      coverImage: {
         tiny: string;
         small: string;
