@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { DashboardAuthenticationResolver } from './user-dashboard/resolvers/dashboard-authentication.resolver';
 import { DashboardPopularAnimeResolver } from './user-dashboard/resolvers/dashboard-popular-anime.resolver';
 import { DashboardWatchingAnimeResolver } from './user-dashboard/resolvers/dashboard-watching-anime.resolver';
+import { ContentPageComponent } from './content-page/content-page.component';
 
 const routes: Routes = [
   {
@@ -23,6 +24,10 @@ const routes: Routes = [
     path: 'login',
     component: LoginComponent,
   },
+  {
+    path: 'content/:slug',
+    component: ContentPageComponent,
+  }
 ];
 
 @NgModule({
