@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Anime } from '../models/anime.model';
 import { FirestoreService } from '../services/firestore.service';
 
@@ -9,20 +9,26 @@ import { FirestoreService } from '../services/firestore.service';
 })
 export class ContentCardComponent implements OnInit {
   @Input() public anime: Anime;
-  public watching: boolean;
+  @Input() public index: number;
+  @Output() public addToWatching = new EventEmitter<number>();
+  @Output() public removeFromWatching = new EventEmitter<{popular: boolean, index: number, anime: Anime}>();
   constructor(private firestoreService: FirestoreService) { }
 
   public ngOnInit(): void {
-    this.firestoreService.checkIfWatching(this.anime.attributes.slug).subscribe((watching) => {
-      this.watching = watching;
-    });
+      this.firestoreService.checkIfWatching(this.anime.attributes.slug).subscribe((watching) => {
+        this.anime.watching = watching;
+      });
   }
 
   public addAnimeToWatching() {
+    this.anime.watching = true;
     this.firestoreService.addAnimeToWatching(this.anime.attributes.slug);
+    this.addToWatching.emit(this.index);
   }
 
   public removeAnimeFromWatching() {
+    this.anime.watching = false;
     this.firestoreService.removeAnimeFromWatching(this.anime.attributes.slug);
+    this.removeFromWatching.emit({popular: this.anime.attributes.popularityRank <= 10, index: this.index, anime: this.anime});
   }
 }
