@@ -74,4 +74,5 @@ export class Anime {
     public id: string;
     public relationships: {};
     public type: string;
+    public watching: boolean;
 }
