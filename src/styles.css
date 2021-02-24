@@ -33,6 +33,7 @@
 }
 
 body {
-    margin: 0;
+    padding: 20px;
+    padding-top: 0;
     font-family: sans-serif;
 }
