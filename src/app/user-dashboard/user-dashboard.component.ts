@@ -30,7 +30,7 @@ export class UserDashboardComponent implements OnInit {
     }
   }
 
-  // Handle unsubscrbing from an anime from the "Popular" section and ensure that the anime is 
+  // Handle unsubscrbing from an anime from the "Popular" section and ensure that the anime is
   // removed from the "Watching Now" section.
   public onUnsubscribeFromPopular(event: {popular: boolean, index: number, anime: Anime}) {
     this.watchingNow.splice(this.watchingNow.findIndex(element => element.id === event.anime.id), 1);
