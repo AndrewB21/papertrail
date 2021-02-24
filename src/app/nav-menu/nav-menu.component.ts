@@ -21,5 +21,4 @@ export class NavMenuComponent implements OnInit {
     this.authenticated = false;
     this.router.navigate(['/']);
   }
-
 }
