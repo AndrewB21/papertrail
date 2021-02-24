@@ -5,7 +5,6 @@ import { FirebaseUISignInSuccessWithAuthResult } from 'firebaseui-angular';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/internal/operators/map';
 import { switchMap } from 'rxjs/operators';
-import { UserAnime } from '../models/UserAnime.model';
 
 @Injectable({
   providedIn: 'root'
@@ -17,11 +16,6 @@ export class FirestoreService {
   public addUserToUserAnime(signInSuccessData: FirebaseUISignInSuccessWithAuthResult) {
     const userAnimeCollection = this.firestore.collection('UserAnime');
     const user = signInSuccessData.authResult.user;
-    const newUserAnime: UserAnime = {
-      UserId: user.uid,
-      anime: {},
-      immersionEntries: {},
-    };
     // Create the document for our UserAnime collection based on the user's ID
     userAnimeCollection.doc(user.uid).set({});
 
