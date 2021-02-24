@@ -1,5 +1,3 @@
-import { Anime } from './anime.model';
-
 export class KitsuResponse {
     public data: {
         attributes: {};
