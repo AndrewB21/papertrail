@@ -1,7 +1,7 @@
 export class KitsuResponse {
-    public data: {
+    public data: [{
         attributes: {};
-    };
+    }];
     public meta: {};
     public links: {};
 }
