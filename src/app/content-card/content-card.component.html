@@ -3,5 +3,10 @@ class="content-card"
 [ngStyle]="{'background-image': 'url(' + anime.attributes.posterImage.small + ')'}">
     <div class="content-card-internal">
         <p>{{anime.attributes.titles.en ? anime.attributes.titles.en : anime.attributes.titles.en_us}}</p>
+        <button *ngIf="!watching; else removeFromWatching" (click)="addAnimeToWatching()">Add to Watching</button>
     </div>
 </div>
+
+<ng-template #removeFromWatching>
+    <button (click)="removeAnimeFromWatching()">Remove from Watching</button>
+</ng-template>

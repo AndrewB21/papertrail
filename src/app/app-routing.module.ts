@@ -10,7 +10,7 @@ import { DashboardWatchingAnimeResolver } from './user-dashboard/resolvers/dashb
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'dashboard',
     component: UserDashboardComponent,
     pathMatch: 'full',
     resolve: {
