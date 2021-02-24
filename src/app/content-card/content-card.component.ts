@@ -12,7 +12,7 @@ export class ContentCardComponent implements OnInit {
   @Input() public index: number;
   @Output() public addToWatching = new EventEmitter<number>();
   @Output() public removeFromWatching = new EventEmitter<{popular: boolean, index: number, anime: Anime}>();
-  constructor(private firestoreService: FirestoreService) { }
+  public constructor(private firestoreService: FirestoreService) { }
 
   public ngOnInit(): void {
       this.firestoreService.checkIfWatching(this.anime.attributes.slug).subscribe((watching) => {

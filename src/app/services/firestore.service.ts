@@ -11,7 +11,7 @@ import { switchMap } from 'rxjs/operators';
 })
 export class FirestoreService {
 
-  constructor(private firestore: AngularFirestore, private afAuth: AngularFireAuth) { }
+  public constructor(private firestore: AngularFirestore, private afAuth: AngularFireAuth) { }
 
   public addUserToUserAnime(signInSuccessData: FirebaseUISignInSuccessWithAuthResult) {
     const userAnimeCollection = this.firestore.collection('UserAnime');

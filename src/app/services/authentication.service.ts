@@ -8,7 +8,7 @@ import { map } from 'rxjs/operators';
 })
 export class AuthenticationService {
 
-  constructor(private afAuth: AngularFireAuth) { }
+  public constructor(private afAuth: AngularFireAuth) { }
 
   public checkAuthState(): Observable<boolean> {
     return this.afAuth.authState.pipe(map(userResponse => {

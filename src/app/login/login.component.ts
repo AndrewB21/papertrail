@@ -9,7 +9,7 @@ import { FirestoreService } from '../services/firestore.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  constructor(private router: Router, private firestoreService: FirestoreService) { }
+  public constructor(private router: Router, private firestoreService: FirestoreService) { }
 
   public ngOnInit(): void {
   }
