@@ -3,16 +3,23 @@
         <div class="dash-section-header">
             <h2>Popular Anime</h2>
         </div>
-        <div class="dash-section-content" *ngFor="let anime of popularAnime">
-            <app-content-card [anime]="anime"></app-content-card>
+        <div class="dash-section-content" *ngFor="let anime of popularAnime; let i = index">
+            <app-content-card 
+            [index]="i"
+            [anime]="anime"
+            (removeFromWatching)="onUnsubscribeFromPopular($event)"
+            (addToWatching)="onSubscribe($event)"></app-content-card>
         </div>
     </section>
     <section class="Watching Now">
         <div class="dash-section-header">
             <h2>Watching Now</h2>
         </div>
-        <div class="dash-section-content" *ngFor="let anime of watchingNow">
-            <app-content-card [anime]="anime"></app-content-card>
+        <div class="dash-section-content" *ngFor="let anime of watchingNow; let i = index">
+            <app-content-card 
+            [index]="i"
+            [anime]="anime" 
+            (removeFromWatching)="onUnsubscribe($event)"></app-content-card>
         </div>
     </section>
     <section class="Recommended">

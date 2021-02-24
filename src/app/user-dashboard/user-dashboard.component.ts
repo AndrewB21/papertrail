@@ -19,4 +19,24 @@ export class UserDashboardComponent implements OnInit {
     this.popularAnime = this.route.snapshot.data['popularAnime'].data;
     this.watchingNow = this.route.snapshot.data['watchingNow'];
   }
+
+  public onUnsubscribe(event: {popular: boolean, index: number, anime: Anime}) {
+    this.watchingNow.splice(event.index, 1);
+
+    // Ensure that the content card for the same anime in the "Popular" section is also updated
+    // with the "false" watching status.
+    if (event.popular) {
+      this.popularAnime[this.popularAnime.findIndex(element => element.id === event.anime.id)].watching = false;
+    }
+  }
+
+  // Handle unsubscrbing from an anime from the "Popular" section and ensure that the anime is 
+  // removed from the "Watching Now" section.
+  public onUnsubscribeFromPopular(event: {popular: boolean, index: number, anime: Anime}) {
+    this.watchingNow.splice(this.watchingNow.findIndex(element => element.id === event.anime.id), 1);
+  }
+
+  public onSubscribe(index: number) {
+    this.watchingNow.push(this.popularAnime[index]);
+  }
 }
