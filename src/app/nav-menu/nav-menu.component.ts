@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth';
+import { Router } from '@angular/router';
 import { AuthenticationService } from '../services/authentication.service';
 
 @Component({
@@ -10,7 +10,7 @@ import { AuthenticationService } from '../services/authentication.service';
 export class NavMenuComponent implements OnInit {
   public authenticated: boolean;
 
-  public constructor(private authService: AuthenticationService) { }
+  public constructor(private router: Router, private authService: AuthenticationService) { }
 
   public ngOnInit(): void {
     this.authService.checkAuthState().subscribe(result => this.authenticated = result);
@@ -19,6 +19,7 @@ export class NavMenuComponent implements OnInit {
   public signOut() {
     this.authService.signOut();
     this.authenticated = false;
+    this.router.navigate(['/']);
   }
 
 }

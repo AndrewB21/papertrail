@@ -1,6 +1,6 @@
 <div class="nav-menu">
     <ul class="nav-list">
-        <li [routerLink]="'/'">Home</li>
+        <li *ngIf="authenticated; else root" [routerLink]="'/dashboard'">Home</li>
         <li>About</li>
         <li *ngIf="authenticated">Account</li>
         <li *ngIf="authenticated; else signIn" (click)="signOut()">Sign Out</li>
@@ -9,4 +9,8 @@
 
 <ng-template #signIn>
     <li [routerLink]="'/login'">Sign In</li>
+</ng-template>
+
+<ng-template #root>
+    <li [routerLink]="''">Home</li>
 </ng-template>
