@@ -8,7 +8,9 @@ class="content-card"
             <button *ngIf="anime.watching != null && !anime.watching; else removeFromWatching" 
             (click)="addAnimeToWatching()" 
             class="content-card-button">Add</button>
-            <button (click)="null" class="content-card-button">Details</button>
+            <button 
+            [routerLink]="['/content', anime.attributes.slug]"
+            class="content-card-button">Details</button>
         </div>
     </div>
 </div>
