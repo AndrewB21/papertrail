@@ -1,1 +1,18 @@
-<p>content-page works!</p>
+<div class="content-details-page" *ngIf="anime">
+    <div class="content-details">
+        <img class="content-poster" src='{{anime.attributes.posterImage.small}}'>
+        <div class="content-titles">
+            <h1 class="content-title jp">{{anime.attributes.titles.ja_jp}}</h1>
+            <h2 class="content-title en">({{anime.attributes.titles.en ? anime.attributes.titles.en : anime.attributes.titles.en_us}})</h2>
+        </div>
+        <p class="content-description">{{anime.attributes.description}}</p>
+    </div>
+    <div class="immersion-details">
+        <h1 class="immersion-title">{{anime.attributes.titles.ja_jp}} immersion history</h1>
+        <div class="immersion-graph">
+
+        </div>
+        <div class="entry-form-container">
+        </div>
+    </div>
+</div>

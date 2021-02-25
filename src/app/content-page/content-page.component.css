@@ -1,0 +1,60 @@
+.content-details-page {
+    display: flex;
+    flex-direction: row;
+    margin: 10vh auto;
+    width: 90vw;
+    height: 85vh;
+}
+
+.content-details {
+    width: 47.5%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 299px 1fr;
+    grid-template-rows: repeat(8, 52.125px);
+}
+
+.immersion-details {
+    width: 47.5%;
+    height: 100%;
+    border: solid 5px cyan;
+    margin-left: auto;
+}
+
+.content-poster {
+    grid-row: 1 / span 2;
+    margin-left: 15px;
+    margin-top: 10px;  
+}
+.content-title {
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 5px;
+    grid-row: 1 / span 2;
+}
+.content-description {
+    margin-top: 0px;
+    padding: 15px;
+    overflow: hidden;
+    grid-column: 2;
+    grid-row: 3 / span 6;
+    overflow: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.content-description::-webkit-scrollbar {
+    display: none;
+}
+
+.immersion-title {
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.immersion-graph {
+    width: 95%;
+    height: 50%;
+    border: solid red 5px;
+    margin: 0 auto;
+}
