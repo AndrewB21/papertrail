@@ -8,12 +8,17 @@ import { DashboardAuthenticationResolver } from './user-dashboard/resolvers/dash
 import { DashboardPopularAnimeResolver } from './user-dashboard/resolvers/dashboard-popular-anime.resolver';
 import { DashboardWatchingAnimeResolver } from './user-dashboard/resolvers/dashboard-watching-anime.resolver';
 import { ContentPageComponent } from './content-page/content-page.component';
+import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
   {
+    path: '',
+    component: HomeComponent,
+    pathMatch: 'full'
+  },
+  {
     path: 'dashboard',
     component: UserDashboardComponent,
-    pathMatch: 'full',
     resolve: {
       authenticated: DashboardAuthenticationResolver,
       popularAnime: DashboardPopularAnimeResolver,

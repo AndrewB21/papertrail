@@ -10,6 +10,7 @@ import { AngularFireModule } from '@angular/fire';
 import { LoginComponent } from './login/login.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ContentPageComponent } from './content-page/content-page.component';
+import { HomeComponent } from './home/home.component';
 
 const firebaseUiAuthConfig: firebaseui.auth.Config = {
   signInFlow: 'popup',
@@ -25,6 +26,7 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
     NavMenuComponent,
     LoginComponent,
     ContentPageComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,
