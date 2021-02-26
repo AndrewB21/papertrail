@@ -1,3 +1,4 @@
+import { query } from '@angular/animations';
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
@@ -10,7 +11,6 @@ import { switchMap } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class FirestoreService {
-
   public constructor(private firestore: AngularFirestore, private afAuth: AngularFireAuth) { }
 
   public addUserToUserAnime(signInSuccessData: FirebaseUISignInSuccessWithAuthResult) {
@@ -24,23 +24,18 @@ export class FirestoreService {
     userAnimeCollection.doc(user.uid).collection('immersionEntries').doc('default').set({});
   }
 
-  public getWatchingAnimeSlugs(): Observable<string[]> {
+  public getWatchingAnimeSlugs(): Observable<{}> {
     return this.afAuth.authState.pipe(switchMap((user) => {
       if (user) {
         return this.firestore
         .collection('UserAnime')
         .doc(user.uid)
         .collection('anime')
-        .get()
+        .doc('watching')
+        .valueChanges()
         .pipe(
-          map((querySnapshot) => {
-            const animeSlugList: string[] = [];
-            querySnapshot.forEach((doc) => {
-                // Ignore the unfortunately necessary empty default documents on the anime collection
-                if (doc.id !== 'default') {
-                  animeSlugList.push(doc.id);
-                }
-              });
+          map((querySnapshot: {}) => {
+            const animeSlugList: {} = querySnapshot;
             return animeSlugList;
           }));
       } else {
@@ -51,31 +46,38 @@ export class FirestoreService {
 
   public addAnimeToWatching(slug: string) {
     this.afAuth.authState.subscribe(user => {
-      this.firestore.collection('UserAnime').doc(user.uid).collection('anime').doc(slug).set({
-        timeWatched: 0,
-        watching: true,
-      });
+      this.firestore
+      .collection('UserAnime')
+      .doc(user.uid)
+      .collection('anime')
+      .doc('watching')
+      .set(
+        { [slug]: true },
+        { merge: true }
+      );
     });
   }
 
   public removeAnimeFromWatching(slug: string) {
     this.afAuth.authState.subscribe(user => {
-      this.firestore.collection('UserAnime').doc(user.uid).collection('anime').doc(slug).delete();
+      this.firestore
+      .collection('UserAnime')
+      .doc(user.uid)
+      .collection('anime')
+      .doc('watching')
+      .set(
+        { [slug]: false },
+        { merge: true }
+      );
     });
   }
 
   public checkIfWatching(slug: string): Observable<boolean> {
-    return this.afAuth.authState.pipe(switchMap((user) => {
-        return this.firestore.collection('UserAnime')
-        .doc(user.uid)
-        .collection('anime')
-        .doc(slug)
-        .get()
-        .pipe(
-          map((response) => {
-            const watching: boolean = response.exists;
-            return watching;
-          }));
+    return this.getWatchingAnimeSlugs().pipe(map((slugList) => {
+        if (slugList[slug] === true) {
+          return true;
+        }
+        return false;
     }));
   }
 }
