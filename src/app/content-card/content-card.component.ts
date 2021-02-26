@@ -15,9 +15,6 @@ export class ContentCardComponent implements OnInit {
   public constructor(private firestoreService: FirestoreService) { }
 
   public ngOnInit(): void {
-      this.firestoreService.checkIfWatching(this.anime.attributes.slug).subscribe((watching) => {
-        this.anime.watching = watching;
-      });
   }
 
   public addAnimeToWatching() {
