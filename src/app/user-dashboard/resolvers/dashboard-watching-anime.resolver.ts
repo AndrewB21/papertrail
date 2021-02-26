@@ -15,14 +15,17 @@ export class DashboardWatchingAnimeResolver implements Resolve<Anime[]> {
   public constructor(private kitsuService: KitsuService, private firestoreService: FirestoreService) { }
 
   public resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Anime[]> {
-      return this.firestoreService.getWatchingAnimeSlugs().pipe(map((animeSlugList: string[]) => {
-        const watchingAnime: Anime[] = [];
-        animeSlugList.forEach((animeSlug) => {
+    return this.firestoreService.getWatchingAnimeSlugs().pipe(map((animeSlugList: {}) => {
+      const watchingAnime: Anime[] = [];
+      for (const [animeSlug, watching] of Object.entries(animeSlugList)) {
+        if (watching === true) {
           this.kitsuService.getAnime(animeSlug).subscribe((anime: Anime) => {
+            anime.watching = true;
             watchingAnime.push(anime);
           });
-        });
-        return watchingAnime;
-      })).pipe(take(1));
+        }
+      }
+      return watchingAnime;
+    })).pipe(take(1));
   }
 }
