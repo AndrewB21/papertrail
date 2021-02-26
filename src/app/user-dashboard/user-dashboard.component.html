@@ -18,7 +18,7 @@
         <div class="dash-section-content" *ngFor="let anime of watchingNow; let i = index">
             <app-content-card 
             [index]="i"
-            [anime]="anime" 
+            [anime]="anime"
             (removeFromWatching)="onUnsubscribe($event)"></app-content-card>
         </div>
     </section>
