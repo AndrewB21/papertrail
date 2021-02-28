@@ -10,23 +10,13 @@ import { FirestoreService } from 'src/app/services/firestore.service';
 @Injectable({
   providedIn: 'root'
 })
-export class DashboardPopularAnimeResolver implements Resolve<Anime[]> {
+export class PopularAnimeResolver implements Resolve<Anime[]> {
 
   public constructor(private kitsuService: KitsuService, private firestoreService: FirestoreService) { }
 
   public resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
     return this.kitsuService.queryAnimePopular().pipe(map((animeList: KitsuResponse) => {
-      animeList.data.forEach((anime: Anime) => {
-        this.firestoreService.checkIfWatching(anime.attributes.slug).subscribe((watching) => {
-          if (watching === true) {
-            anime.watching = true;
-          } else {
-            anime.watching = false;
-          }
-        });
-      });
-      console.log(animeList);
-      return animeList;
+      return animeList.data;
     }));
   }
 }

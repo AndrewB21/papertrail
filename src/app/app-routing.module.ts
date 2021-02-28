@@ -5,7 +5,7 @@ import { UserDashboardComponent } from './user-dashboard/user-dashboard.componen
 import { ContentCardComponent } from './content-card/content-card.component';
 import { CommonModule } from '@angular/common';
 import { DashboardAuthenticationResolver } from './user-dashboard/resolvers/dashboard-authentication.resolver';
-import { DashboardPopularAnimeResolver } from './user-dashboard/resolvers/dashboard-popular-anime.resolver';
+import { PopularAnimeResolver } from './shared/resolvers/popular-anime.resolver';
 import { DashboardWatchingAnimeResolver } from './user-dashboard/resolvers/dashboard-watching-anime.resolver';
 import { ContentPageComponent } from './content-page/content-page.component';
 import { HomeComponent } from './home/home.component';
@@ -21,7 +21,7 @@ const routes: Routes = [
     component: UserDashboardComponent,
     resolve: {
       authenticated: DashboardAuthenticationResolver,
-      popularAnime: DashboardPopularAnimeResolver,
+      popularAnime: PopularAnimeResolver,
       watchingNow: DashboardWatchingAnimeResolver,
     }
   },
