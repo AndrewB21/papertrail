@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Anime } from '../models/anime.model';
+import { FirestoreService } from '../services/firestore.service';
 
 @Component({
   selector: 'app-user-dashboard',
@@ -12,12 +13,21 @@ export class UserDashboardComponent implements OnInit {
   public popularAnime: Anime[];
   public watchingNow: Anime[];
   public recommendedAnime: Anime[];
-  public constructor(private route: ActivatedRoute) { }
+  public constructor(private route: ActivatedRoute, private firestoreService: FirestoreService) { }
 
   public ngOnInit(): void {
     this.authenticated = this.route.snapshot.data['authenticated'];
-    this.popularAnime = this.route.snapshot.data['popularAnime'].data;
     this.watchingNow = this.route.snapshot.data['watchingNow'];
+    this.firestoreService.getWatchingAnimeSlugs().subscribe((watchingAnimeSlugs) => {
+      this.popularAnime = this.route.snapshot.data['popularAnime'].map((anime) => {
+        if (watchingAnimeSlugs[anime.attributes.slug] === true) {
+          anime.watching = true;
+        } else {
+          anime.watching = false;
+        }
+        return anime;
+      });
+    });
   }
 
   public onUnsubscribe(event: {popular: boolean, index: number, anime: Anime}) {
