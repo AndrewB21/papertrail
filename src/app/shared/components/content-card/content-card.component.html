@@ -1,0 +1,21 @@
+<div 
+class="content-card"
+[ngStyle]="{'background-image': 'url(' + anime.attributes.posterImage.small + ')'}">
+    <div class="content-card-internal">
+        <p class="content-title">{{anime.attributes.titles.en ? anime.attributes.titles.en : anime.attributes.titles.en_us}}</p>
+        <p class="content-description">{{anime.attributes.description}}</p>
+        <div class="buttons-container">
+            <button *ngIf="anime.watching != null && !anime.watching; else removeFromWatching" 
+            (click)="addAnimeToWatching()" 
+            class="content-card-button">Add</button>
+            <button 
+            [routerLink]="['/content', anime.attributes.slug]"
+            [queryParams]="{watching: anime.watching}"
+            class="content-card-button">Details</button>
+        </div>
+    </div>
+</div>
+
+<ng-template #removeFromWatching>
+    <button *ngIf="anime.watching != null" (click)="removeAnimeFromWatching()" class="content-card-button">Remove</button>
+</ng-template>
