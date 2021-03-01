@@ -15,7 +15,7 @@ export class PopularAnimeResolver implements Resolve<Anime[]> {
   public constructor(private kitsuService: KitsuService, private firestoreService: FirestoreService) { }
 
   public resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
-    return this.kitsuService.getPopularAnime().pipe(map((animeList: KitsuResponse) => {
+    return this.kitsuService.getPopularAnimeFromKitsu().pipe(map((animeList: KitsuResponse) => {
       return animeList.data;
     }));
   }
