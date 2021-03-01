@@ -11,16 +11,39 @@ const kitsuBaseUrl = 'https://kitsu.io/api/edge';
   providedIn: 'root'
 })
 export class KitsuService {
-
+  public popularAnime: Anime[];
+  public watchingAnime: Anime[] = [];
   public constructor(private http: HttpClient ) { }
 
-  public getPopularAnime(): Observable<KitsuResponse> {
+  public setPopularAnime(popularAnime: Anime[]) {
+    this.popularAnime = popularAnime;
+  }
+
+  public getPopularAnime(): Anime[] {
+    return this.popularAnime;
+  }
+
+  public setWatchingAnime(watchingAnime: Anime[]) {
+    this.watchingAnime = watchingAnime;
+  }
+
+  public getWatchingAnime(): Anime[] {
+    return this.watchingAnime;
+  }
+
+  public getPopularAnimeFromKitsu(): Observable<KitsuResponse> {
     return this.http.get<KitsuResponse>(`${kitsuBaseUrl}/anime?sort=popularityRank`);
   }
 
   public getAnime(slug: string): Observable<Anime> {
     return this.http.get<KitsuResponse>(`${kitsuBaseUrl}/anime?filter[slug]=${slug}`).pipe(map((response: KitsuResponse) => {
       return response.data[0];
+    }));
+  }
+
+  public searchForAnimeByText(searchText: string): Observable<Anime[]> {
+    return this.http.get<KitsuResponse>(`${kitsuBaseUrl}/anime?filter[text]=${searchText}`).pipe(map((response: KitsuResponse) => {
+      return response.data;
     }));
   }
 }
