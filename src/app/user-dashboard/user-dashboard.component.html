@@ -1,4 +1,7 @@
 <div class="dashboard">
+    <section class="anime-search">
+        <app-anime-search [watchingAnime]="watchingAnime"></app-anime-search>
+    </section>
     <section class="popular">
         <div class="dash-section-header">
             <h2>Popular Anime</h2>
@@ -7,19 +10,20 @@
             <app-content-card 
             [index]="i"
             [anime]="anime"
-            (removeFromWatching)="onUnsubscribeFromPopular($event)"
-            (addToWatching)="onSubscribe($event)"></app-content-card>
+            [watchingAnime]="watchingAnime"
+            (removeFromWatching)="onWatchingAnimeUpdate()"
+            (addToWatching)="onWatchingAnimeUpdate()"></app-content-card>
         </div>
     </section>
     <section class="Watching Now">
         <div class="dash-section-header">
             <h2>Watching Now</h2>
         </div>
-        <div class="dash-section-content" *ngFor="let anime of watchingNow; let i = index">
+        <div class="dash-section-content" *ngFor="let anime of watchingAnime; let i = index">
             <app-content-card 
             [index]="i"
             [anime]="anime"
-            (removeFromWatching)="onUnsubscribe($event)"></app-content-card>
+            (removeFromWatching)="onWatchingAnimeUpdate()"></app-content-card>
         </div>
     </section>
     <section class="Recommended">

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Anime } from '../models/anime.model';
 import { FirestoreService } from '../services/firestore.service';
+import { KitsuService } from '../services/kitsu.service';
 
 @Component({
   selector: 'app-user-dashboard',
@@ -11,42 +12,49 @@ import { FirestoreService } from '../services/firestore.service';
 export class UserDashboardComponent implements OnInit {
   public authenticated: boolean;
   public popularAnime: Anime[];
-  public watchingNow: Anime[];
+  public watchingAnime: Anime[];
+  public watchingAnimeSlugs: {};
   public recommendedAnime: Anime[];
-  public constructor(private route: ActivatedRoute, private firestoreService: FirestoreService) { }
+  public constructor(private route: ActivatedRoute, private firestoreService: FirestoreService, private kitsuService: KitsuService) { }
 
   public ngOnInit(): void {
     this.authenticated = this.route.snapshot.data['authenticated'];
-    this.watchingNow = this.route.snapshot.data['watchingNow'];
-    this.firestoreService.getWatchingAnimeSlugs().subscribe((watchingAnimeSlugs) => {
-      this.popularAnime = this.route.snapshot.data['popularAnime'].map((anime) => {
-        if (watchingAnimeSlugs[anime.attributes.slug] === true) {
-          anime.watching = true;
-        } else {
-          anime.watching = false;
-        }
-        return anime;
-      });
+    const watchingAnimeObservable = this.firestoreService.getWatchingAnimeSlugs().subscribe((watchingAnimeSlugs: {}) => {
+      this.initializePopularAnime(watchingAnimeSlugs);
+      this.initializeWatchingAnime(watchingAnimeSlugs);
+      watchingAnimeObservable.unsubscribe();
     });
   }
 
-  public onUnsubscribe(event: {popular: boolean, index: number, anime: Anime}) {
-    this.watchingNow.splice(event.index, 1);
-
-    // Ensure that the content card for the same anime in the "Popular" section is also updated
-    // with the "false" watching status.
-    if (event.popular) {
-      this.popularAnime[this.popularAnime.findIndex(element => element.id === event.anime.id)].watching = false;
+  public setAnimeWatchingStatus(watchingAnimeSlugs: {}, anime: Anime) {
+    if (watchingAnimeSlugs[anime.attributes.slug] === true) {
+      anime.watching = true;
+    } else {
+      anime.watching = false;
     }
   }
 
-  // Handle unsubscrbing from an anime from the "Popular" section and ensure that the anime is
-  // removed from the "Watching Now" section.
-  public onUnsubscribeFromPopular(event: {popular: boolean, index: number, anime: Anime}) {
-    this.watchingNow.splice(this.watchingNow.findIndex(element => element.id === event.anime.id), 1);
+  public initializePopularAnime(watchingAnimeSlugs: {}) {
+    this.popularAnime = this.route.snapshot.data['popularAnime'].map((anime) => {
+        this.setAnimeWatchingStatus(watchingAnimeSlugs, anime);
+        return anime;
+      });
+      this.kitsuService.setPopularAnime(this.popularAnime);
   }
 
-  public onSubscribe(index: number) {
-    this.watchingNow.push(this.popularAnime[index]);
+  public initializeWatchingAnime(watchingAnimeSlugs: {}) {
+      for (const [animeSlug, watchingStatus] of Object.entries(watchingAnimeSlugs)) {
+        this.kitsuService.getAnime(animeSlug).subscribe((anime) => {
+          this.setAnimeWatchingStatus(watchingAnimeSlugs, anime);
+          if (anime.watching === true) {
+            this.kitsuService.getWatchingAnime().push(anime);
+            this.watchingAnime = this.kitsuService.getWatchingAnime();
+          }
+        });
+    }
+  }
+
+  public onWatchingAnimeUpdate() {
+    this.watchingAnime = this.kitsuService.getWatchingAnime();
   }
 }
