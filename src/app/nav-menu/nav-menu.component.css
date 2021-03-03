@@ -3,7 +3,7 @@ ul {
     right: 0;
     top: 0;
     margin-top: 0;
-    width: auto;
+    width: 175px;
     height: 35px;
     padding: 0.75em;
     border-bottom-left-radius: 15px;
@@ -12,6 +12,11 @@ ul {
     justify-content: center;
     list-style: none;
     background-color: var(--primary-color);
+    transition: all 0.5s;
+}
+
+.auth-true {
+    width: 450px;
 }
 
 li {
@@ -21,4 +26,16 @@ li {
     font-weight: 700;
     color: var(--primary-color-contrast);
     cursor: pointer;
+}
+
+.auth-text {
+    transition: all 1s;
+}
+
+.expanded-false {
+    color: var(--primary-color);
+}
+
+.expanded-true {
+    color: var(--primary-color-contrast);
 }

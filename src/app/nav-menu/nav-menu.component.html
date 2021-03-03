@@ -1,9 +1,13 @@
 <div class="nav-menu">
-    <ul class="nav-list">
+    <ul [ngClass]="authClass">
         <li *ngIf="authenticated; else root" [routerLink]="'/dashboard'">Home</li>
         <li>About</li>
-        <li *ngIf="authenticated">Account</li>
-        <li *ngIf="authenticated; else signIn" (click)="signOut()">Sign Out</li>
+        <span *ngIf="authenticated != undefined">
+            <li *ngIf="authenticated" [ngClass]="expandedClass">Account</li>
+        </span>
+        <span *ngIf="authenticated != undefined">
+            <li *ngIf="authenticated; else signIn" (click)="signOut()" [ngClass]="expandedClass">Sign Out</li>
+        </span>
     </ul>
 </div>
 
