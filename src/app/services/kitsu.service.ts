@@ -50,9 +50,10 @@ export class KitsuService {
   }
 
   public searchForAnimeByText(searchText: string): Observable<Anime[]> {
-    return this.http.get<KitsuResponse>(`${kitsuBaseUrl}/anime?filter[text]=${searchText}`).pipe(map((response: KitsuResponse) => {
-      return response.data;
-    }));
+    return this.http.get<KitsuResponse>(`${kitsuBaseUrl}/anime?page[limit]=5&filter[text]=${searchText}`)
+      .pipe(map((response: KitsuResponse) => {
+        return response.data;
+      }));
   }
 
   public setWatchingAnimeSlugs(animeSlugs) {
