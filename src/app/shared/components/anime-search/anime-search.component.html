@@ -1,15 +1,13 @@
 <div class="anime-search">
-    <h1 class="anime-search-header">Search for an anime:</h1><br />
-    <form [formGroup]="animeSearch" (ngSubmit)="onSubmit()" class="anime-search-form">
-        <input formControlName="searchText" type="text" placeholder="Search for an anime">
-        <button type="submit">Search</button>
-    </form>
-    <div class="search-results" *ngIf="searchResults != undefined">
-        <h2>Here's what we found:</h2>
-        <div class="dash-section-content" *ngFor="let anime of searchResults; let i = index">
-            <app-content-card
-            [index]="i"
-            [anime]="anime"></app-content-card>
-        </div>
+    <div [ngClass]="containerClass">
+        <input #input class="search-input" type="text" placeholder="Search for an anime">
+        <div class="search-results" *ngIf="searchResults != null">
+            <h2>Here's what we found:</h2>
+            <div class="dash-section-content" *ngFor="let anime of searchResults; let i = index">
+                <app-content-card
+                [index]="i"
+                [anime]="anime"></app-content-card>
+            </div>
+        </div>    
     </div>
 </div>
