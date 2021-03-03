@@ -13,6 +13,7 @@ export class ContentCardComponent implements OnInit, AfterViewChecked {
   @Input() public index: number;
   @Output() public addToWatching = new EventEmitter<null>();
   @Output() public removeFromWatching = new EventEmitter<Anime>();
+  public cardTitle: string;
 
   public constructor(private firestoreService: FirestoreService, private kitsuService: KitsuService, private cdRef: ChangeDetectorRef) { }
 
@@ -20,6 +21,19 @@ export class ContentCardComponent implements OnInit, AfterViewChecked {
     if (this.anime.watching === undefined) {
       this.kitsuService.setAnimeWatchingStatus(this.anime);
     }
+    // Set the card title, trying different variations of the English titles first, and defaulting to the
+    // fully Japanese title if an english title does not exist.
+    const animeTitles = this.anime.attributes.titles;
+    if (animeTitles.en !== undefined) {
+      this.cardTitle = animeTitles.en;
+    } else if (animeTitles.en_us !== undefined) {
+      this.cardTitle = animeTitles.en_us;
+    } else if (animeTitles.en_jp !== undefined) {
+      this.cardTitle = animeTitles.en_jp;
+    } else {
+      this.cardTitle = animeTitles.ja_jp;
+    }
+
   }
 
   public ngAfterViewChecked(): void {
