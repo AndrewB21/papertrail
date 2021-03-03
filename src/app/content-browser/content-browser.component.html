@@ -1,0 +1,34 @@
+<div class="content-browser">
+    <h1>Not sure what to watch? Here's some suggestions!</h1>
+    <section class="best-current">
+        <div class="dash-section-header">
+            <h2>Top Current Anime</h2>
+        </div>
+        <div class="dash-section-content" *ngFor="let anime of topCurrentAnime; let i = index">
+            <app-content-card
+            [index]="i"
+            [anime]="anime"
+            ></app-content-card>
+        </div> 
+    </section>
+    <section class="highest-rated">
+        <div class="dash-section-header">
+            <h2>Highest Rated Anime</h2>
+        </div>
+        <div class="dash-section-content" *ngFor="let anime of highestRatedAnime; let i = index">
+            <app-content-card 
+            [index]="i"
+            [anime]="anime"></app-content-card>
+        </div>
+    </section>
+    <section class="popular">
+        <div class="dash-section-header">
+            <h2>Most Popular Anime</h2>
+        </div>
+        <div class="dash-section-content" *ngFor="let anime of popularAnime; let i = index">
+            <app-content-card 
+            [index]="i"
+            [anime]="anime"></app-content-card>
+        </div>
+    </section>
+</div>

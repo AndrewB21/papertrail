@@ -1,0 +1,26 @@
+.dash-section-content {
+    display: inline-flex;
+}
+
+.anime-search-form {
+    display: flex;
+    place-items: center;
+}
+
+.anime-search-header {
+    margin-bottom: 0;
+}
+
+.anime-search-form input {
+    width: 300px;
+    height: 25px;
+    border-radius: 5px;
+    font-size: 1.25em;
+}
+
+.anime-search-form button {
+    height: 31px;
+    font-size: 1.25em;
+    border-radius: 5px;
+    text-align: center;
+}
