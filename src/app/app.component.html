@@ -1,4 +1,12 @@
-<div class="app">
+<div class="nav-container">
   <app-nav-menu></app-nav-menu>
-  <router-outlet></router-outlet>
 </div>
+<div *ngIf="!initialized; else initializedApp" class="app">
+  <h1>INITIALIZING DATA </h1>
+</div>
+
+<ng-template #initializedApp>
+  <div class="app">
+    <router-outlet></router-outlet>
+  </div>
+</ng-template>

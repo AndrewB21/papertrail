@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { forkJoin, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { KitsuResponse } from '../models/kitsu-response.model';
 import { Anime } from '../models/anime.model';
@@ -13,26 +13,28 @@ const kitsuBaseUrl = 'https://kitsu.io/api/edge';
 export class KitsuService {
   public popularAnime: Anime[];
   public watchingAnime: Anime[] = [];
+  public watchingAnimeSlugs: {};
+
   public constructor(private http: HttpClient ) { }
 
-  public setPopularAnime(popularAnime: Anime[]) {
-    this.popularAnime = popularAnime;
+  public getPopularAnimeFromKitsu(): Observable<Anime[]> {
+    return this.http.get<KitsuResponse>(`${kitsuBaseUrl}/anime?page[limit]=5&sort=popularityRank`).pipe(map((response: KitsuResponse) => {
+      return response.data;
+    }));
   }
 
-  public getPopularAnime(): Anime[] {
-    return this.popularAnime;
+  public getTopCurrentAnime(): Observable<Anime[]> {
+    return this.http.get<KitsuResponse>(`${kitsuBaseUrl}/anime?page[limit]=5&sort=-averageRating&filter[status]=current`)
+    .pipe(map((response: KitsuResponse) => {
+        return response.data;
+    }));
   }
 
-  public setWatchingAnime(watchingAnime: Anime[]) {
-    this.watchingAnime = watchingAnime;
-  }
-
-  public getWatchingAnime(): Anime[] {
-    return this.watchingAnime;
-  }
-
-  public getPopularAnimeFromKitsu(): Observable<KitsuResponse> {
-    return this.http.get<KitsuResponse>(`${kitsuBaseUrl}/anime?sort=popularityRank`);
+  public getHighestRatedAnime(): Observable<Anime[]> {
+    return this.http.get<KitsuResponse>(`${kitsuBaseUrl}/anime?page[limit]=5&sort=ratingRank`)
+    .pipe(map((response: KitsuResponse) => {
+        return response.data;
+    }));
   }
 
   public getAnime(slug: string): Observable<Anime> {
@@ -41,9 +43,27 @@ export class KitsuService {
     }));
   }
 
+  public getMultipleAnimeBySlugs(slugs: string[]): Observable<Anime>[] {
+    return slugs.map((slug) => {
+      return this.getAnime(slug);
+    });
+  }
+
   public searchForAnimeByText(searchText: string): Observable<Anime[]> {
     return this.http.get<KitsuResponse>(`${kitsuBaseUrl}/anime?filter[text]=${searchText}`).pipe(map((response: KitsuResponse) => {
       return response.data;
     }));
+  }
+
+  public setWatchingAnimeSlugs(animeSlugs) {
+    this.watchingAnimeSlugs = animeSlugs;
+  }
+
+  public setAnimeWatchingStatus(anime: Anime) {
+    if (this.watchingAnimeSlugs[anime.attributes.slug] === true) {
+      anime.watching = true;
+    } else {
+      anime.watching = false;
+    }
   }
 }

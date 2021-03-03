@@ -11,23 +11,18 @@ import { KitsuService } from 'src/app/services/kitsu.service';
 export class ContentCardComponent implements OnInit, AfterViewChecked {
   @Input() public anime: Anime;
   @Input() public index: number;
-  @Input() public watchingAnime: Anime[];
   @Output() public addToWatching = new EventEmitter<null>();
-  @Output() public removeFromWatching = new EventEmitter<null>();
+  @Output() public removeFromWatching = new EventEmitter<Anime>();
 
   public constructor(private firestoreService: FirestoreService, private kitsuService: KitsuService, private cdRef: ChangeDetectorRef) { }
 
   public ngOnInit(): void {
+    if (this.anime.watching === undefined) {
+      this.kitsuService.setAnimeWatchingStatus(this.anime);
+    }
   }
 
   public ngAfterViewChecked(): void {
-    // Initialize the anime's watching status if it has not already been initialized by a parent component.
-    // We use ngAfterViewChecked to wait for the watchingAnime array to be initialized propertly before
-    // performing the check and initialization
-    if (this.watchingAnime !== undefined && this.anime.watching === undefined) {
-      this.anime.watching = this.kitsuService.getWatchingAnime().some(element => element.id === this.anime.id);
-      this.cdRef.detectChanges();
-    }
   }
 
   public addAnimeToWatching() {
@@ -36,16 +31,16 @@ export class ContentCardComponent implements OnInit, AfterViewChecked {
     this.addToWatching.emit();
 
     // Update the watchingAnime list in KitsuService
-    this.kitsuService.getWatchingAnime().push(this.anime);
+    this.kitsuService.watchingAnime.push(this.anime);
   }
 
   public removeAnimeFromWatching() {
     this.anime.watching = false;
     this.firestoreService.removeAnimeFromWatching(this.anime.attributes.slug);
-    this.removeFromWatching.emit();
+    this.removeFromWatching.emit(this.anime);
 
     // Update the watchingAnime list in KitsuService
-    const kitsuServiceAnimeIndex = this.kitsuService.getWatchingAnime().findIndex(element => element.id === this.anime.id);
-    this.kitsuService.getWatchingAnime().splice(kitsuServiceAnimeIndex, 1);
+    const kitsuServiceAnimeIndex = this.kitsuService.watchingAnime.findIndex(element => element.id === this.anime.id);
+    this.kitsuService.watchingAnime.splice(kitsuServiceAnimeIndex, 1);
   }
 }

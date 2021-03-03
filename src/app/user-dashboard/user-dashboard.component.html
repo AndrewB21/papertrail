@@ -1,6 +1,6 @@
 <div class="dashboard">
     <section class="anime-search">
-        <app-anime-search [watchingAnime]="watchingAnime"></app-anime-search>
+        <app-anime-search></app-anime-search>
     </section>
     <section class="popular">
         <div class="dash-section-header">
@@ -9,10 +9,7 @@
         <div class="dash-section-content" *ngFor="let anime of popularAnime; let i = index">
             <app-content-card 
             [index]="i"
-            [anime]="anime"
-            [watchingAnime]="watchingAnime"
-            (removeFromWatching)="onWatchingAnimeUpdate()"
-            (addToWatching)="onWatchingAnimeUpdate()"></app-content-card>
+            [anime]="anime"></app-content-card>
         </div>
     </section>
     <section class="Watching Now">
@@ -23,7 +20,7 @@
             <app-content-card 
             [index]="i"
             [anime]="anime"
-            (removeFromWatching)="onWatchingAnimeUpdate()"></app-content-card>
+            (removeFromWatching)="onRemoveAnime($event)"></app-content-card>
         </div>
     </section>
     <section class="Recommended">
