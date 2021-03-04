@@ -3,15 +3,25 @@ ul {
     right: 0;
     top: 0;
     margin-top: 0;
-    width: auto;
+    width: 300px;
     height: 35px;
     padding: 0.75em;
+    padding-left: 0.3em;
     border-bottom-left-radius: 15px;
     display: flex;
     align-items: center;
     justify-content: center;
     list-style: none;
     background-color: var(--primary-color);
+    transition: all 0.4s;
+}
+
+.auth-true {
+    width: 530px;
+}
+
+.auth-false {
+    width: 425px;
 }
 
 li {
@@ -21,4 +31,16 @@ li {
     font-weight: 700;
     color: var(--primary-color-contrast);
     cursor: pointer;
+}
+
+.auth-text {
+    transition: all 1s;
+}
+
+.expanded-false {
+    color: var(--primary-color);
+}
+
+.expanded-true {
+    color: var(--primary-color-contrast);
 }

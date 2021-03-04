@@ -5,15 +5,21 @@ import { AuthenticationService } from '../services/authentication.service';
 @Component({
   selector: 'app-nav-menu',
   templateUrl: './nav-menu.component.html',
-  styleUrls: ['./nav-menu.component.css']
+  styleUrls: ['./nav-menu.component.css'],
 })
 export class NavMenuComponent implements OnInit {
   public authenticated: boolean;
+  public authClass = 'nav-menu';
+  public expandedClass = 'auth-text expanded-false';
 
   public constructor(private router: Router, private authService: AuthenticationService) { }
 
   public ngOnInit(): void {
-    this.authService.checkAuthState().subscribe(result => this.authenticated = result);
+    this.authService.checkAuthState().subscribe(result => {
+      this.authClass = `nav-menu auth-${result}`;
+      this.authenticated = result;
+      setTimeout(() => this.expandedClass = 'auth-text expanded-true', 275);
+    });
   }
 
   public signOut() {

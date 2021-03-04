@@ -34,8 +34,7 @@ export class FirestoreService {
         .doc('watching')
         .valueChanges()
         .pipe(
-          map((querySnapshot: {}) => {
-            const animeSlugList: {} = querySnapshot;
+          map((animeSlugList: {}) => {
             return animeSlugList;
           }));
       } else {
@@ -70,14 +69,5 @@ export class FirestoreService {
         { merge: true }
       );
     });
-  }
-
-  public checkIfWatching(slug: string): Observable<boolean> {
-    return this.getWatchingAnimeSlugs().pipe(map((slugList) => {
-        if (slugList[slug] === true) {
-          return true;
-        }
-        return false;
-    }));
   }
 }

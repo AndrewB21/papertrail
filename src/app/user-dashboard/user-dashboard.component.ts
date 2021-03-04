@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Anime } from '../models/anime.model';
+import { FirestoreService } from '../services/firestore.service';
+import { KitsuService } from '../services/kitsu.service';
 
 @Component({
   selector: 'app-user-dashboard',
@@ -8,35 +10,19 @@ import { Anime } from '../models/anime.model';
   styleUrls: ['./user-dashboard.component.css']
 })
 export class UserDashboardComponent implements OnInit {
-  public authenticated: boolean;
   public popularAnime: Anime[];
-  public watchingNow: Anime[];
-  public recommendedAnime: Anime[];
-  public constructor(private route: ActivatedRoute) { }
+  public watchingAnime: Anime[];
+  public constructor(private route: ActivatedRoute, private firestoreService: FirestoreService, private kitsuService: KitsuService) { }
 
   public ngOnInit(): void {
-    this.authenticated = this.route.snapshot.data['authenticated'];
-    this.popularAnime = this.route.snapshot.data['popularAnime'].data;
-    this.watchingNow = this.route.snapshot.data['watchingNow'];
+    this.watchingAnime = this.kitsuService.watchingAnime;
+    this.popularAnime = this.route.snapshot.data['popularAnime'];
   }
 
-  public onUnsubscribe(event: {popular: boolean, index: number, anime: Anime}) {
-    this.watchingNow.splice(event.index, 1);
-
-    // Ensure that the content card for the same anime in the "Popular" section is also updated
-    // with the "false" watching status.
-    if (event.popular) {
-      this.popularAnime[this.popularAnime.findIndex(element => element.id === event.anime.id)].watching = false;
+  public onRemoveAnime(anime: Anime) {
+    if (anime.attributes.popularityRank < 6) {
+      const removedAnime = this.popularAnime.find(element => element.id === anime.id);
+      removedAnime.watching = false;
     }
-  }
-
-  // Handle unsubscrbing from an anime from the "Popular" section and ensure that the anime is
-  // removed from the "Watching Now" section.
-  public onUnsubscribeFromPopular(event: {popular: boolean, index: number, anime: Anime}) {
-    this.watchingNow.splice(this.watchingNow.findIndex(element => element.id === event.anime.id), 1);
-  }
-
-  public onSubscribe(index: number) {
-    this.watchingNow.push(this.popularAnime[index]);
   }
 }
