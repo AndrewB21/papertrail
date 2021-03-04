@@ -23,4 +23,11 @@ export class ContentBrowserComponent implements OnInit {
     this.topCurrentAnime = this.route.snapshot.data['topCurrentAnime'];
   }
 
+  public onAnimeUpdated(updatedAnime: Anime) {
+    const animeArrays = [this.watchingAnime, this.popularAnime, this.highestRatedAnime, this.topCurrentAnime];
+    animeArrays.forEach((animeArray) => {
+      this.kitsuService.updateCommonAnimeWatchingStatus(animeArray, updatedAnime);
+    });
+  }
+
 }

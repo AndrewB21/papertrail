@@ -9,6 +9,7 @@
             <app-content-card
             [index]="i"
             [anime]="anime"
+            (animeUpdated)="onAnimeUpdated($event)"
             ></app-content-card>
         </div> 
     </section>
@@ -19,7 +20,9 @@
         <div class="dash-section-content" *ngFor="let anime of highestRatedAnime; let i = index">
             <app-content-card 
             [index]="i"
-            [anime]="anime"></app-content-card>
+            [anime]="anime"
+            (animeUpdated)="onAnimeUpdated($event)"
+            ></app-content-card>
         </div>
     </section>
     <section class="popular">
@@ -29,7 +32,9 @@
         <div class="dash-section-content" *ngFor="let anime of popularAnime; let i = index">
             <app-content-card 
             [index]="i"
-            [anime]="anime"></app-content-card>
+            [anime]="anime"
+            (animeUpdated)="onAnimeUpdated($event)"
+            ></app-content-card>
         </div>
     </section>
 </div>

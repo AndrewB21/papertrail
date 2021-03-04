@@ -11,6 +11,7 @@ import { KitsuService } from 'src/app/services/kitsu.service';
 export class ContentCardComponent implements OnInit, AfterViewChecked {
   @Input() public anime: Anime;
   @Input() public index: number;
+  @Output() public animeUpdated = new EventEmitter<Anime>();
   @Output() public addToWatching = new EventEmitter<null>();
   @Output() public removeFromWatching = new EventEmitter<Anime>();
   public cardTitle: string;
@@ -33,7 +34,6 @@ export class ContentCardComponent implements OnInit, AfterViewChecked {
     } else {
       this.cardTitle = animeTitles.ja_jp;
     }
-
   }
 
   public ngAfterViewChecked(): void {
@@ -43,6 +43,7 @@ export class ContentCardComponent implements OnInit, AfterViewChecked {
     this.anime.watching = true;
     this.firestoreService.addAnimeToWatching(this.anime.attributes.slug);
     this.addToWatching.emit();
+    this.animeUpdated.emit(this.anime);
 
     // Update the watchingAnime list in KitsuService
     this.kitsuService.watchingAnime.push(this.anime);
@@ -52,6 +53,7 @@ export class ContentCardComponent implements OnInit, AfterViewChecked {
     this.anime.watching = false;
     this.firestoreService.removeAnimeFromWatching(this.anime.attributes.slug);
     this.removeFromWatching.emit(this.anime);
+    this.animeUpdated.emit(this.anime);
 
     // Update the watchingAnime list in KitsuService
     const kitsuServiceAnimeIndex = this.kitsuService.watchingAnime.findIndex(element => element.id === this.anime.id);
