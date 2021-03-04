@@ -3,7 +3,7 @@ ul {
     right: 0;
     top: 0;
     margin-top: 0;
-    width: 175px;
+    width: 300px;
     height: 35px;
     padding: 0.75em;
     padding-left: 0.3em;
@@ -17,7 +17,11 @@ ul {
 }
 
 .auth-true {
-    width: 415px;
+    width: 530px;
+}
+
+.auth-false {
+    width: 425px;
 }
 
 li {

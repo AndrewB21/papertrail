@@ -1,6 +1,7 @@
 <div class="nav-menu">
     <ul [ngClass]="authClass">
         <li *ngIf="authenticated; else root" [routerLink]="'/dashboard'">Home</li>
+        <li [routerLink]="'/browse'">Browse</li>
         <li>About</li>
         <span *ngIf="authenticated != undefined">
             <li *ngIf="authenticated" [ngClass]="expandedClass">Account</li>
