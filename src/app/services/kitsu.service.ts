@@ -67,4 +67,17 @@ export class KitsuService {
       anime.watching = false;
     }
   }
+
+  // Update watching status of anime that are common accross different arrays when it is updated in one array
+  // (i.e updating the watching of an anime that appears in the most popular and highest rated anime arrays
+  // in the content browser)
+  public updateCommonAnimeWatchingStatus(animeListToCheck: Anime[], updatedAnime: Anime): boolean {
+    const animeIndex = animeListToCheck.findIndex(element => element.id === updatedAnime.id);
+    if (animeIndex !== -1) {
+      animeListToCheck[animeIndex].watching = updatedAnime.watching;
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
