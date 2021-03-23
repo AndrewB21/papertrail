@@ -23,16 +23,5 @@ export class ContentPageComponent implements OnInit {
     this.kitsuService.getAnime(animeSlug).subscribe((anime: Anime) => {
       this.anime = anime;
     });
-    this.route.queryParams.subscribe((params) => {
-      if (params.watching) {
-        this.watching = params.watching;
-      } else {
-        // Use the slug in the url to check if the user is watching in the case that
-        // they browsed directly to the content page and did not provide query params
-        this.firestoreService.checkIfWatching(animeSlug).subscribe((watching) => {
-          this.watching = watching;
-        });
-      }
-    });
   }
 }
