@@ -20,8 +20,22 @@ export class FirestoreService {
     userAnimeCollection.doc(user.uid).set({});
 
     // Create empty docs to instantiate the anime and immersionEntries collections on the new UserAnime collection
-    userAnimeCollection.doc(user.uid).collection('anime').doc('default').set({});
+    userAnimeCollection.doc(user.uid).collection('anime').doc('watching').set({});
     userAnimeCollection.doc(user.uid).collection('immersionEntries').doc('default').set({});
+  }
+
+  public getImmersionEntries(animeSlug: string): Observable<{}> {
+    return this.afAuth.authState.pipe(map((user) => {
+      if (user) {
+        return this.firestore
+          .collection('UserAnime')
+          .doc(user.uid)
+          .collection('immersionEntries')
+          .doc(animeSlug)
+      } else {
+        return null;
+      }
+    }))
   }
 
   public getWatchingAnimeSlugs(): Observable<{}> {

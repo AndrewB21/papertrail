@@ -10,9 +10,45 @@
     <div class="immersion-details">
         <h1 class="immersion-title">{{anime.attributes.titles.ja_jp}} immersion history</h1>
         <div class="immersion-graph">
-
-        </div>
-        <div class="entry-form-container">
+            <google-chart [type]="chartType" [data]="chartData" *ngIf="dataReady"></google-chart>
+            <div class="entries-container" fxLayout="row" fxLayoutGap="20px">
+                <div class="entries-list-container" flex="50%">
+                    <span class="entry-list-toggle" (click)="toggleEntryList()" *ngIf="dataReady">{{entryListStatus === 'hidden' ? 'View' : 'Hide'}} Entry Data</span>
+                    <div [ngClass]="entryListClass" *ngIf="dataReady">
+                        <ul *ngFor="let data of chartData">
+                            <p>{{data[0]}} - {{data[1]}} minutes</p>
+                        </ul>
+                    </div>
+                </div>
+                <div class="entry-form-container" flex="50%">
+                    <span class="entry-form-toggle" (click)="toggleEntryForm()" *ngIf="dataReady" >{{entryFormStatus === 'hidden' ? 'Submit a new entry' : 'Hide entry form'}}</span>
+                    <div [ngClass]="entryFormClass">
+                        <form [formGroup]="immersionEntryForm" (ngSubmit)="submitEntry()">
+                            <div class="form-group" fxLayout="row">
+                                <mat-form-field floatLabel="always">
+                                    <mat-label>Date</mat-label>
+                                    <input matInput
+                                        class="date-input"
+                                        value="{{immersionEntryForm['date']}}"
+                                        formControlName="date"
+                                        type="date"
+                                    >
+                                </mat-form-field>
+                                <mat-form-field>
+                                    <mat-label class="length-label">Immersion Length (minutes)</mat-label>
+                                    <input matInput
+                                        class="length-input"
+                                        value="{{immersionEntryForm['length']}}"
+                                        formControlName="length"
+                                        type="number"
+                                    >
+                                </mat-form-field>
+                            </div>
+                            <button mat-raised-button color="primary" type="submit">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

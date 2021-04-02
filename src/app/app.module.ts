@@ -1,6 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 import { AppComponent } from './app.component';
 import { firebase, FirebaseUIModule } from 'firebaseui-angular';
 import { environment } from '../environments/environment';
@@ -12,6 +15,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { ContentPageComponent } from './content-page/content-page.component';
 import { HomeComponent } from './home/home.component';
 import { ImmersionFormComponent } from './immersion-form/immersion-form.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import { GoogleChartsModule } from 'angular-google-charts'
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 const firebaseUiAuthConfig: firebaseui.auth.Config = {
   signInFlow: 'popup',
@@ -33,11 +39,18 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
   imports: [
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireModule,
-    FirebaseUIModule.forRoot(firebaseUiAuthConfig)
+    FirebaseUIModule.forRoot(firebaseUiAuthConfig),
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    BrowserAnimationsModule,
+    GoogleChartsModule,
+    FlexLayoutModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
