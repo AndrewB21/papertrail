@@ -11,7 +11,7 @@
         <h1 class="immersion-title">{{anime.attributes.titles.ja_jp}} immersion history</h1>
         <div class="immersion-graph">
             <google-chart [type]="chartType" [data]="chartData" *ngIf="dataReady"></google-chart>
-            <div class="entries-container" fxLayout="row" fxLayoutGap="20px">
+            <div class="entries-container" fxLayout="row" fxLayoutGap="50px">
                 <div class="entries-list-container" flex="50%">
                     <span class="entry-list-toggle" (click)="toggleEntryList()" *ngIf="dataReady">{{entryListStatus === 'hidden' ? 'View' : 'Hide'}} Entry Data</span>
                     <div [ngClass]="entryListClass" *ngIf="dataReady">
