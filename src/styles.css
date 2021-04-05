@@ -36,4 +36,5 @@ body {
     padding: 20px;
     padding-top: 0;
     font-family: sans-serif;
+    background-color: var(--background-color-shade)
 }
