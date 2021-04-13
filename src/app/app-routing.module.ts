@@ -12,6 +12,9 @@ import { ContentPageComponent } from './content-page/content-page.component';
 import { ContentBrowserComponent } from './content-browser/content-browser.component';
 import { HighestRatedAnimeResolver } from './content-browser/resolvers/highest-rated-anime.resolver';
 import { TopCurrentAnimeResolver } from './content-browser/resolvers/top-current-anime.resolver';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatIconModule } from '@angular/material/icon';
 
 const routes: Routes = [
   {
@@ -50,6 +53,9 @@ const routes: Routes = [
     RouterModule.forRoot(routes),
     CommonModule,
     ReactiveFormsModule,
+    FlexLayoutModule,
+    MatMenuModule,
+    MatIconModule,
   ],
   exports: [RouterModule],
   declarations: [

@@ -4,6 +4,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatIconModule } from '@angular/material/icon';
 import { AppComponent } from './app.component';
 import { firebase, FirebaseUIModule } from 'firebaseui-angular';
 import { environment } from '../environments/environment';
@@ -47,7 +49,9 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
     FirebaseUIModule.forRoot(firebaseUiAuthConfig),
     MatFormFieldModule,
     MatInputModule,
+    MatMenuModule,
     MatButtonModule,
+    MatIconModule,
     BrowserAnimationsModule,
     GoogleChartsModule,
     FlexLayoutModule,

@@ -1,4 +1,3 @@
-import { query } from '@angular/animations';
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
@@ -6,12 +5,18 @@ import { FirebaseUISignInSuccessWithAuthResult } from 'firebaseui-angular';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/internal/operators/map';
 import { switchMap } from 'rxjs/operators';
+import { Anime } from '../models/anime.model';
+import { KitsuService } from './kitsu.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FirestoreService {
-  public constructor(private firestore: AngularFirestore, private afAuth: AngularFireAuth) { }
+  public constructor(
+    private firestore: AngularFirestore,
+    private afAuth: AngularFireAuth,
+    private kitsuService: KitsuService
+  ) { }
 
   public addUserToUserAnime(signInSuccessData: FirebaseUISignInSuccessWithAuthResult) {
     const userAnimeCollection = this.firestore.collection('UserAnime');
@@ -57,7 +62,7 @@ export class FirestoreService {
     }));
   }
 
-  public addAnimeToWatching(slug: string) {
+  public addAnimeToWatching(slug: string): Observable<Anime[]> {
     this.afAuth.authState.subscribe(user => {
       this.firestore
       .collection('UserAnime')
@@ -69,9 +74,14 @@ export class FirestoreService {
         { merge: true }
       );
     });
+
+    return this.kitsuService.getAnime(slug).pipe(map((animeResponse) => {
+      this.kitsuService.watchingAnime.push(animeResponse);
+      return this.kitsuService.watchingAnime;
+    }));
   }
 
-  public removeAnimeFromWatching(slug: string) {
+  public removeAnimeFromWatching(slug: string): Observable<Anime[]> {
     this.afAuth.authState.subscribe(user => {
       this.firestore
       .collection('UserAnime')
@@ -83,5 +93,11 @@ export class FirestoreService {
         { merge: true }
       );
     });
+
+    return this.kitsuService.getAnime(slug).pipe(map((animeResponse) => {
+      const animeIndex = this.kitsuService.watchingAnime.findIndex(element => element.id === animeResponse.id);
+      this.kitsuService.watchingAnime.splice(animeIndex, 1);
+      return this.kitsuService.watchingAnime;
+    }));
   }
 }

@@ -41,9 +41,12 @@ export class ContentCardComponent implements OnInit, AfterViewChecked {
 
   public addAnimeToWatching() {
     this.anime.watching = true;
-    this.firestoreService.addAnimeToWatching(this.anime.attributes.slug);
-    this.addToWatching.emit();
-    this.animeUpdated.emit(this.anime);
+    this.firestoreService.addAnimeToWatching(this.anime.attributes.slug).subscribe((res) => {
+      if (res) {
+        this.animeUpdated.emit(this.anime);
+      }
+    })
+    
 
     // Update the watchingAnime list in KitsuService
     this.kitsuService.watchingAnime.push(this.anime);
@@ -52,7 +55,6 @@ export class ContentCardComponent implements OnInit, AfterViewChecked {
   public removeAnimeFromWatching() {
     this.anime.watching = false;
     this.firestoreService.removeAnimeFromWatching(this.anime.attributes.slug);
-    this.removeFromWatching.emit(this.anime);
     this.animeUpdated.emit(this.anime);
 
     // Update the watchingAnime list in KitsuService

@@ -19,10 +19,24 @@ export class UserDashboardComponent implements OnInit {
     this.popularAnime = this.route.snapshot.data['popularAnime'];
   }
 
-  public onRemoveAnime(anime: Anime) {
-    if (anime.attributes.popularityRank < 6) {
-      const removedAnime = this.popularAnime.find(element => element.id === anime.id);
-      removedAnime.watching = false;
+  public removeFromWatching(animeSlug: string): void {
+    this.firestoreService.removeAnimeFromWatching(animeSlug).subscribe((updatedWatchingAnime) => {
+      this.watchingAnime = updatedWatchingAnime;
+    })
+  }
+
+  public setAnimeTitle(anime: Anime) {
+    let animeTitle = '';
+    const animeTitles = anime.attributes.titles;
+    if (animeTitles.en !== undefined) {
+      animeTitle = animeTitles.en;
+    } else if (animeTitles.en_us !== undefined) {
+      animeTitle = animeTitles.en_us;
+    } else if (animeTitles.en_jp !== undefined) {
+      animeTitle = animeTitles.en_jp;
+    } else {
+      animeTitle = animeTitles.ja_jp;
     }
+    return animeTitle;
   }
 }

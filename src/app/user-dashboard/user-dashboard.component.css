@@ -1,8 +1,100 @@
+.dashboard-container {
+    width: 75vw;
+    margin: 0 auto;
+    display: block;
+}
 .dashboard {
-    margin-top: 100px;
-    width: 90vw;
+    width: 100%;
+    height: 80vh;
+    margin: auto 0;
 }
 
-.dash-section-content {
-    display: inline-flex;
+.library {
+    height: inherit;
+}
+
+.library-title {
+    font-size: 56px;
+    color: var(--primary-color);
+    font-weight: bold;
+    text-align: center;
+}
+
+.library-header span {
+    text-align: center;
+    background-color: var(--primary-color-shade);
+    color: var(--primary-color-contrast);
+    border: solid 2px black;
+    margin-top: 0;
+    height: 60px;
+    line-height: 60px;
+    font-size: 18px;
+    font-weight: bold;
+    opacity: 0.9;
+    cursor: pointer;
+    transition: all 0.5s;
+}
+
+.library-header span:hover, .library-content li:hover {
+    opacity: 1;
+}
+
+.library-content {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    height: calc(80vh - 64px);
+    overflow: scroll;
+}
+
+.library-content::-webkit-scrollbar {
+    display: none;
+}
+
+.library-content li {
+    width: 100%;
+    margin: 0;
+    height: 150px;
+    line-height: 150px;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    border: solid black 2px;
+    background-color: var(--primary-color);
+    opacity: 0.9;
+    transition: all 0.5s;
+}
+
+.library-content li img {
+    cursor: pointer;
+}
+
+.library-content li span {
+    padding-left: 10px;
+    cursor: pointer;
+}
+
+.lib-content-title-container {
+    text-align: center;
+}
+
+.lib-content-title {
+    font-size: 32px;
+    text-align: center;
+}
+
+.lib-content-link {
+    margin: 0 auto;
+}
+
+.lib-content-link span {
+    font-size: 24px;
+    padding: 0 5px;
+}
+
+.mat-icon {
+    font-size: 40px;
+    padding: 20px;
+    margin-top: 33px;
+    cursor: pointer;
 }
