@@ -39,6 +39,10 @@
                         </div>
                     </li>
                 </div>
+                <div class="refresh-container">
+                    <span class="refresh-title" >Is your anime list not looking right?</span> 
+                    <span class="refresh-link" (click)="refreshCurrentList()">Click here to refresh it! <mat-icon class="refresh-btn">refresh</mat-icon></span>
+                </div>
             </ul>
         </div>
         <div *ngIf="currentScreenSize === ScreenSizes.LARGE || currentScreenSize === ScreenSizes.XLARGE" fxFlex>

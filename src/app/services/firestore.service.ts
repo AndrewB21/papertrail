@@ -17,8 +17,6 @@ export class FirestoreService {
   public watchingAnime: Anime[];
   public watchList: Anime[] = [];
   public finishedAnime: Anime[] = [];
-  public watchingAnimeSlugs: {};
-  public user;
 
   public constructor(
     private firestore: AngularFirestore,
@@ -37,10 +35,6 @@ export class FirestoreService {
     userAnimeCollection.doc(user.uid).collection('anime').doc('watchList').set({});
     userAnimeCollection.doc(user.uid).collection('anime').doc('finished').set({});
     userAnimeCollection.doc(user.uid).collection('immersionEntries').doc('default').set({});
-  }
-
-  public setWatchingAnimeSlugs(animeSlugs) {
-    this.watchingAnimeSlugs = animeSlugs;
   }
 
   // Update watching status of anime that are common accross different arrays when it is updated in one array

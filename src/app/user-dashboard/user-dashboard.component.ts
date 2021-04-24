@@ -83,6 +83,7 @@ export class UserDashboardComponent implements OnInit {
   }
 
   public addToList(animeSlug: string, listName: string, ): void {
+    
     this.firestoreService.addAnimeToList(animeSlug, listName).subscribe();
   }
 
@@ -95,20 +96,31 @@ export class UserDashboardComponent implements OnInit {
     this.firestoreService.addAnimeToList(animeSlug, destinationListName).subscribe();
   }
 
-  public addToWatching(animeSlug: string): void {
-    this.firestoreService.addAnimeToList(animeSlug, 'watching').subscribe((res) => {
-      if (res) {
-        alert('Ok');
-      }
-    })
-  }
-
   public addToWatchList(animeSlug: string): void {
     this.firestoreService.addAnimeToList(animeSlug, 'watchList').subscribe((res) => {
       if (res) {
         this.watchList = res;
       }
     })
+  }
+
+  refreshCurrentList() {
+    let selectedListName;
+    switch (this.selectedAnimeList) {
+      case this.watchingAnime:
+        selectedListName = 'watching'
+        break;
+      case this.watchList:
+        selectedListName = 'watchList';
+        break;
+      case this.finishedAnime:
+        selectedListName = 'finisehd';
+        break;
+      default:
+        break;
+    }
+    this.firestoreService.initializeList(selectedListName);
+    console.log('refreshing')
   }
 
   public setAnimeTitle(anime: Anime) {

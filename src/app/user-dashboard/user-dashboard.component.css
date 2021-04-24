@@ -104,6 +104,26 @@
     cursor: pointer;
 }
 
+.refresh-container{
+    margin-top: 15px;
+    text-align: center;
+}
+
+.refresh-title, .refresh-link {
+    text-align: center;
+    margin-right: 5px;
+    font-size: 14px;
+}
+
+.refresh-link {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.refresh-btn {
+    font-size: 14px;
+}
+
 
 
 @media only screen and (max-width: 1368px) {
