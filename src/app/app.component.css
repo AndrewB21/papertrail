@@ -8,3 +8,23 @@ footer {
     bottom: 10px;
     text-align: center;
 }
+
+.loading-msg {
+    color: var(--primary-color);
+    font-weight: bold;
+    text-align: center;
+    font-size: 56px;
+}
+
+
+@media only screen and (max-width: 750px) {
+    .loading-msg {
+        font-size: 36px;
+    }
+}
+
+@media only screen and (max-width: 375px) {
+    .loading-msg {
+        font-size: 26px;
+    }
+}

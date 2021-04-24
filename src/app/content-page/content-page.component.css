@@ -138,3 +138,28 @@ ul {
 button {
     background-color: var(--primary-color) !important;
 }
+
+.small-screen-msg {
+    font-size: 48px;
+    font-weight: bold;
+    text-align: center;
+    color: var(--primary-color);
+}
+
+@media only screen and (max-width: 1150px) {
+    .small-screen-msg {
+        font-size: 36px;
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    .small-screen-msg {
+        font-size: 28px;
+    }
+}
+
+@media only screen and (max-width: 625px) {
+    .small-screen-msg {
+        font-size: 20px;
+    }
+}

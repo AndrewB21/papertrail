@@ -1,3 +1,4 @@
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -22,11 +23,27 @@ export class ContentPageComponent implements OnInit {
   public entryListStatus = 'hidden';
   public entryFormStatus = 'hidden';
   public entryListClass = `entry-list ${this.entryListStatus}`;
-  public entryFormClass = `entry-form ${this.entryFormStatus}`
+  public entryFormClass = `entry-form ${this.entryFormStatus}`;
+  public smallScreen = false;
 
-  public constructor(private route: ActivatedRoute, private kitsuService: KitsuService, private firestoreService: FirestoreService, private formBuilder: FormBuilder) { }
+  public constructor(
+    private route: ActivatedRoute, 
+    private kitsuService: KitsuService, 
+    private firestoreService: FirestoreService, 
+    private formBuilder: FormBuilder,
+    private bpObserver: BreakpointObserver,
+  ) { }
 
   public ngOnInit(): void {
+    this.bpObserver.observe(['(max-width: 1368px)']).subscribe((result) => {
+      const breakpoints = result.breakpoints;
+      if (breakpoints['(max-width: 1368px)']) {
+        this.smallScreen = true;
+      } else {
+        this.smallScreen = false;
+      }
+    });
+
     // Get the anime slug from the current url. Using the route snapshot allows us
     // to retrieve our anime even if the user browses directly to the route without
     // using the apps router outlet.
