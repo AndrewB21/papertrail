@@ -13,6 +13,8 @@ import { KitsuService } from './services/kitsu.service';
 export class AppComponent implements OnInit {
   public title = 'PaperTrail';
   public initialized = false;
+  public loadingMessageClass = "loading-msg"
+  public displayLoadingMessage = false;
 
   public constructor (
     private kitsuService: KitsuService,
@@ -22,6 +24,11 @@ export class AppComponent implements OnInit {
   ) { }
 
   public ngOnInit() {
+    setTimeout(() => {
+      if(!this.initialized) {
+        this.loadingMessageClass = "loading-msg active-msg"
+      }
+    }, 700)
     const appInitializationObservable = this.authenticationService.checkAuthState().subscribe((result) => {
       if (result) {
           const watchingAnimeSubscription = this.firestoreService.getSlugsFromList('watching').subscribe((watchingAnimeSlugs) => {

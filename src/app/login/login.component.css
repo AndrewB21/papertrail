@@ -13,9 +13,17 @@
     margin-right: auto;
     display: block;
     background-color: var(--primary-color-shade);
-    width: 10%;
+    width: 15%;
+    min-width: 75px;
+    max-width: 200px;
     height: 7px;
-    margin-top: 5px;
+    margin-top: 12px;
     border-radius: 3px;
     transition: all 0.5s;
+}
+
+@media only screen and (max-width: 550px) {
+    .login-heading {
+        font-size: 36px;
+    }
 }

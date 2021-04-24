@@ -14,8 +14,13 @@ footer {
     font-weight: bold;
     text-align: center;
     font-size: 56px;
+    opacity: 0;
+    transition: all 1s;
 }
 
+.active-msg {
+    opacity: 1;
+}
 
 @media only screen and (max-width: 750px) {
     .loading-msg {
