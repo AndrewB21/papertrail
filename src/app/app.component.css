@@ -1,3 +1,10 @@
 .nav-container {
     margin-bottom: 150px;
 }
+
+footer {
+    position: fixed;
+    width: 100%;
+    bottom: 10px;
+    text-align: center;
+}

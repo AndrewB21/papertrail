@@ -33,7 +33,7 @@ export class ContentPageComponent implements OnInit {
     const animeSlug: string = this.route.snapshot.url[1].path;
     this.kitsuService.getAnime(animeSlug).subscribe((anime: Anime) => {
       this.anime = anime;
-      this.watching = this.kitsuService.watchingAnime.find(element => element.id === this.anime.id) ? true : false;
+      this.watching = this.firestoreService.watchingAnime.find(element => element.id === this.anime.id) ? true : false;
       this.firestoreService.getImmersionEntries(this.anime.attributes.slug).subscribe((immersionEntries) => {
         this.immersionEntries = immersionEntries;
         this.immersionEntries.valueChanges().subscribe((res) => {

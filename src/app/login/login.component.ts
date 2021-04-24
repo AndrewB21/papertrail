@@ -21,21 +21,20 @@ export class LoginComponent implements OnInit {
     }
 
     // Initialize watching anime and navigate to the dashboard when finished
-    const watchingAnimeSubscription = this.firestoreService.getWatchingAnimeSlugs().subscribe((watchingAnimeSlugs) => {
-      this.kitsuService.setWatchingAnimeSlugs(watchingAnimeSlugs);
-
+    const watchingAnimeSubscription = this.firestoreService.getSlugsFromList('watching').subscribe((watchingAnimeSlugs) => {
       // Initialize the watching anime array in the kitsuService
       this.kitsuService.getMultipleAnimeBySlugs(Object.keys(watchingAnimeSlugs)).forEach((animeObservable) => {
         animeObservable.subscribe((anime) => {
-          this.kitsuService.setAnimeWatchingStatus(anime);
-
-          if (anime.watching === true) {
-            this.kitsuService.watchingAnime.push(anime);
+          // Define the watchingAnime array if it hasn't been defined yet, otherwise just push to it.
+          if (!this.firestoreService.watchingAnime) {
+            this.firestoreService.watchingAnime = [anime];
+          } else {
+            this.firestoreService.watchingAnime.push(anime);
           }
-
+          // Check if we have reached the end of the anime slugs list, and mark initilization as completed if so.
+          // This prevents the app from loading before the watching anime list is defined, which leads to errors.
           if (Object.keys(watchingAnimeSlugs).slice(-1)[0] === anime.attributes.slug) {
-            console.log(this.kitsuService.watchingAnime);
-            this.router.navigate(['/dashboard']);
+            this.router.navigate(['/']);
           }
         });
       });
@@ -44,6 +43,6 @@ export class LoginComponent implements OnInit {
   }
 
   public errorCallback(errorData: FirebaseUISignInFailure) {
-    console.log('Login failed.');
+    console.warn('Login failed.');
   }
 }

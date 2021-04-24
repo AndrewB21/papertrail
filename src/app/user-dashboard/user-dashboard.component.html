@@ -1,45 +1,149 @@
-<div class="dashboard-container"> 
+<div class="dashboard-container">
     <div class="dashboard" fxLayout="row inline" fxLayoutAlign="center start" fxLayoutGap="100px">
-        <div fxFlex>
+        <div fxFlex *ngIf="currentScreenSize === ScreenSizes.LARGE || currentScreenSize === ScreenSizes.XLARGE">
         </div>
-        <div fxFlex="80%" class="library">
+        <div fxFlex="{{dashboardFlexSize}}" class="library">
             <h1 class="library-title">Your Library</h1>
-            <div class="library-header" fxLayout="row" fxLayoutAlign="center center">
-                <span fxFlex="33.333%" >Watching Now</span>
-                <span fxFlex="33.333%" >Watch List</span>
-                <span fxFlex="33.333%" >Finished</span>
+            <div class="library-header" fxLayout="row" fxLayoutAlign="center center" *ngIf="currentScreenSize !== ScreenSizes.MOBILE; else mobileLibraryHeader">
+                <span fxFlex="33.333%" class="header-link" (click)="setSelectedAnimeList(AnimeLists.WATCHING)">Watching Now</span>
+                <span fxFlex="33.333%" class="header-link" (click)="setSelectedAnimeList(AnimeLists.WATCHLIST)">Watch List</span>
+                <span fxFlex="33.333%" class="header-link" (click)="setSelectedAnimeList(AnimeLists.FINISHED)">Finished</span>
             </div>
             <ul class="library-content" fxLayout="column">
-                <li *ngFor="let anime of watchingAnime" fxLayout="row inline">
-                    <img 
-                        fxFlex="120px"src="{{anime.attributes.posterImage.small}}" 
-                        height="100%"
-                        width="75px"
-                        [routerLink]="['/content', anime.attributes.slug]"
-                    />
-                    <div fxFlex="65%" class="lib-content-title-container">
-                        <span 
-                            class="lib-content-title"
-                            [routerLink]="['/content', anime.attributes.slug]">
-                                {{setAnimeTitle(anime)}}
-                        </span>
-                    </div>
-                    <div class="lib-content-link">
-                        <span>Synopsis</span>
-                    </div>
-                    <div class="lib-content-link">
-                        <span [routerLink]="['/content', anime.attributes.slug]">Details</span>
-                    </div>
-                    <div class="dropdown-menu">
-                        <mat-icon class="menu-btn" [matMenuTriggerFor]="menu">more_horiz</mat-icon>
-                        <mat-menu #menu="matMenu">
-                            <button (click)="removeFromWatching(anime.attributes.slug)" mat-menu-item>Remove From Watching</button>
-                        </mat-menu>
-                    </div>
-                </li>
+                <div *ngIf="currentScreenSize === ScreenSizes.LARGE || currentScreenSize === ScreenSizes.XLARGE; else mediumScreen">
+                    <li *ngFor="let anime of selectedAnimeList" fxLayout="row inline">
+                        <img 
+                            fxFlex="120px"src="{{anime.attributes.posterImage.small}}" 
+                            
+                            width="75px"
+                            [routerLink]="['/content', anime.attributes.slug]"
+                        />
+                        <div fxFlex="65%" class="lib-content-title-container">
+                            <span 
+                                class="lib-content-title"
+                                [routerLink]="['/content', anime.attributes.slug]">
+                                    {{setAnimeTitle(anime)}}
+                            </span>
+                        </div>
+                        <div class="lib-content-link" fxFlex="110px">
+                            <span [routerLink]="['/content', anime.attributes.slug]">Details</span>
+                        </div>
+                        <div class="lib-content-link" fxFlex="110px">
+                            <span>Synopsis</span>
+                        </div>
+                        <div class="dropdown-menu" fxFlex="75px">
+                            <mat-icon class="menu-btn" [matMenuTriggerFor]="menu" (click)="anime.menuOptions = setDropdownMenuOptions(anime)">more_horiz</mat-icon>
+                            <mat-menu #menu="matMenu">
+                                <button *ngFor="let option of anime.menuOptions" (click)="option.action(anime.attributes.slug, option.list)"mat-menu-item>{{option.text}}</button>
+                            </mat-menu>
+                        </div>
+                    </li>
+                </div>
             </ul>
         </div>
-        <div fxFlex style="text-align: center;">
+        <div *ngIf="currentScreenSize === ScreenSizes.LARGE || currentScreenSize === ScreenSizes.XLARGE" fxFlex>
         </div>
     </div>
 </div>
+
+<ng-template #mediumScreen>
+    <div *ngIf="currentScreenSize === ScreenSizes.MEDIUM; else smallScreen">
+        <li *ngFor="let anime of selectedAnimeList" fxLayout="row inline">
+            <img 
+                fxFlex="120px"src="{{anime.attributes.posterImage.small}}" 
+                
+                width="75px"
+                [routerLink]="['/content', anime.attributes.slug]"
+            />
+            <div fxFlex="65%" class="lib-content-title-container">
+                <span 
+                    class="lib-content-title"
+                    [routerLink]="['/content', anime.attributes.slug]">
+                        {{setAnimeTitle(anime)}}
+                </span>
+            </div>
+            <div class="lib-content-link" fxFlex="110px">
+                <span [routerLink]="['/content', anime.attributes.slug]">Details</span>
+            </div>
+            <div class="dropdown-menu" fxFlex="75px">
+                <mat-icon class="menu-btn" [matMenuTriggerFor]="menu" (click)="anime.menuOptions = setDropdownMenuOptions(anime)">more_horiz</mat-icon>
+                <mat-menu #menu="matMenu">
+                    <span mat-menu-item>Synopsis</span>
+                    <button *ngFor="let option of anime.menuOptions" (click)="option.action(anime.attributes.slug, option.list)"mat-menu-item>{{option.text}}</button>
+                </mat-menu>
+            </div>
+        </li>
+    </div>
+</ng-template>
+
+<ng-template #smallScreen>
+    <div *ngIf="currentScreenSize === ScreenSizes.SMALL; else mobileScreen">
+        <li *ngFor="let anime of selectedAnimeList" fxLayout="row inline">
+            <img 
+                fxFlex="120px"src="{{anime.attributes.posterImage.small}}" 
+                
+                width="75px"
+                [routerLink]="['/content', anime.attributes.slug]"
+            />
+            <div fxFlex="65%" class="lib-content-title-container">
+                <span 
+                    class="lib-content-title"
+                    [routerLink]="['/content', anime.attributes.slug]">
+                        {{setAnimeTitle(anime)}}
+                </span>
+            </div>
+            <div class="dropdown-menu">
+                <mat-icon class="menu-btn" [matMenuTriggerFor]="menu" (click)="anime.menuOptions = setDropdownMenuOptions(anime)">more_horiz</mat-icon>
+                <mat-menu #menu="matMenu">
+                    <span [routerLink]="['/content', anime.attributes.slug]" mat-menu-item>Details</span>
+                    <span mat-menu-item>Synopsis</span>
+                    <button *ngFor="let option of anime.menuOptions" (click)="option.action(anime.attributes.slug, option.list)"mat-menu-item>{{option.text}}</button>
+                </mat-menu>
+            </div>
+        </li>
+    </div>
+</ng-template>
+
+<ng-template #mobileLibraryHeader>
+    <div class="library-header">
+        <div class="header-dropdown-menu" fxLayout="row">
+            <span fxFlex="85%" fxFlexAlign="center" class="mobile-header-title">Watching Now</span>
+            <span fxFlexAlign="center"[matMenuTriggerFor]="headerMenu" class="header-btn">
+               <mat-icon>expand_more</mat-icon>
+            </span>
+            <mat-menu #headerMenu="matMenu">
+                <span mat-menu-item>Watching Now</span>
+                <span mat-menu-item>Watch List</span>
+                <span mat-menu-item>Finished</span>
+            </mat-menu>
+        </div>
+    </div>
+    
+</ng-template>
+
+<ng-template #mobileScreen>
+    <div>
+        <li *ngFor="let anime of selectedAnimeList" >
+            <img 
+                fxFlex="50px"src="{{anime.attributes.posterImage.small}}"
+                width="50px"
+                [routerLink]="['/content', anime.attributes.slug]"
+            />
+            <div fxFlex="75%" class="lib-content-title-container">
+                <span 
+                    class="lib-content-title"
+                    [routerLink]="['/content', anime.attributes.slug]">
+                        {{setAnimeTitle(anime)}}
+                </span>
+            </div>
+            <div fxFlex="40px" class="dropdown-menu">
+                <mat-icon class="menu-btn" [matMenuTriggerFor]="menu" (click)="anime.menuOptions = setDropdownMenuOptions(anime)">more_horiz</mat-icon>
+                <mat-menu #menu="matMenu">
+                    <span [routerLink]="['/content', anime.attributes.slug]" mat-menu-item>Details</span>
+                    <span mat-menu-item>Synopsis</span>
+                    <button *ngFor="let option of anime.menuOptions" (click)="option.action(anime.attributes.slug, option.list)"mat-menu-item>{{option.text}}</button>
+                </mat-menu>
+            </div>
+        </li>
+    </div>
+</ng-template>

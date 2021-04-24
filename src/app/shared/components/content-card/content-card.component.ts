@@ -20,7 +20,7 @@ export class ContentCardComponent implements OnInit, AfterViewChecked {
 
   public ngOnInit(): void {
     if (this.anime.watching === undefined) {
-      this.kitsuService.setAnimeWatchingStatus(this.anime);
+      this.anime.watching = this.firestoreService.watchingAnime.find(element => element.id === this.anime.id) ? true : false;
     }
     // Set the card title, trying different variations of the English titles first, and defaulting to the
     // fully Japanese title if an english title does not exist.
@@ -41,24 +41,20 @@ export class ContentCardComponent implements OnInit, AfterViewChecked {
 
   public addAnimeToWatching() {
     this.anime.watching = true;
-    this.firestoreService.addAnimeToWatching(this.anime.attributes.slug).subscribe((res) => {
+    this.firestoreService.addAnimeToList(this.anime.attributes.slug, 'watching').subscribe((res) => {
       if (res) {
         this.animeUpdated.emit(this.anime);
       }
     })
-    
-
-    // Update the watchingAnime list in KitsuService
-    this.kitsuService.watchingAnime.push(this.anime);
   }
 
   public removeAnimeFromWatching() {
     this.anime.watching = false;
-    this.firestoreService.removeAnimeFromWatching(this.anime.attributes.slug);
+    this.firestoreService.removeAnimeFromList(this.anime.attributes.slug, 'watching');
     this.animeUpdated.emit(this.anime);
 
     // Update the watchingAnime list in KitsuService
-    const kitsuServiceAnimeIndex = this.kitsuService.watchingAnime.findIndex(element => element.id === this.anime.id);
-    this.kitsuService.watchingAnime.splice(kitsuServiceAnimeIndex, 1);
+    const kitsuServiceAnimeIndex = this.firestoreService.watchingAnime.findIndex(element => element.id === this.anime.id);
+    this.firestoreService.watchingAnime.splice(kitsuServiceAnimeIndex, 1);
   }
 }

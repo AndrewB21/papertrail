@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../services/authentication.service';
+import { FirestoreService } from '../services/firestore.service';
 
 @Component({
   selector: 'app-nav-menu',
@@ -12,7 +13,7 @@ export class NavMenuComponent implements OnInit {
   public authClass = 'nav-menu';
   public expandedClass = 'auth-text expanded-false';
 
-  public constructor(private router: Router, private authService: AuthenticationService) { }
+  public constructor(private router: Router, private firestoreService: FirestoreService, private authService: AuthenticationService) { }
 
   public ngOnInit(): void {
     this.authService.checkAuthState().subscribe(result => {
@@ -23,8 +24,12 @@ export class NavMenuComponent implements OnInit {
   }
 
   public signOut() {
-    this.authService.signOut();
-    this.authenticated = false;
-    this.router.navigate(['/']);
+    this.authService.signOut().then(res => {
+      this.firestoreService.clearAllLists();
+      console.log(this.firestoreService.watchingAnime);
+      this.authenticated = false;
+      this.router.navigate(['/']);
+
+    });
   }
 }

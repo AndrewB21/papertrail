@@ -25,9 +25,6 @@ const routes: Routes = [
   {
     path: 'dashboard',
     component: UserDashboardComponent,
-    resolve: {
-      popularAnime: PopularAnimeResolver,
-    }
   },
   {
     path: 'login',

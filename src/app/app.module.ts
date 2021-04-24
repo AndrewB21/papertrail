@@ -20,6 +20,7 @@ import { ImmersionFormComponent } from './immersion-form/immersion-form.componen
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { GoogleChartsModule } from 'angular-google-charts'
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { LayoutModule } from '@angular/cdk/layout';
 
 const firebaseUiAuthConfig: firebaseui.auth.Config = {
   signInFlow: 'popup',
@@ -55,6 +56,7 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
     BrowserAnimationsModule,
     GoogleChartsModule,
     FlexLayoutModule,
+    LayoutModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

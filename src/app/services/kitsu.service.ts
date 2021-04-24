@@ -4,6 +4,7 @@ import { forkJoin, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { KitsuResponse } from '../models/kitsu-response.model';
 import { Anime } from '../models/anime.model';
+import { FirestoreService } from './firestore.service';
 
 const kitsuBaseUrl = 'https://kitsu.io/api/edge';
 
@@ -11,11 +12,8 @@ const kitsuBaseUrl = 'https://kitsu.io/api/edge';
   providedIn: 'root'
 })
 export class KitsuService {
-  public popularAnime: Anime[];
-  public watchingAnime: Anime[] = [];
-  public watchingAnimeSlugs: {};
 
-  public constructor(private http: HttpClient ) { }
+  public constructor(private http: HttpClient) { }
 
   public getPopularAnimeFromKitsu(): Observable<Anime[]> {
     return this.http.get<KitsuResponse>(`${kitsuBaseUrl}/anime?page[limit]=5&sort=popularityRank`).pipe(map((response: KitsuResponse) => {
@@ -54,30 +52,5 @@ export class KitsuService {
       .pipe(map((response: KitsuResponse) => {
         return response.data;
       }));
-  }
-
-  public setWatchingAnimeSlugs(animeSlugs) {
-    this.watchingAnimeSlugs = animeSlugs;
-  }
-
-  public setAnimeWatchingStatus(anime: Anime) {
-    if (this.watchingAnimeSlugs[anime.attributes.slug] === true) {
-      anime.watching = true;
-    } else {
-      anime.watching = false;
-    }
-  }
-
-  // Update watching status of anime that are common accross different arrays when it is updated in one array
-  // (i.e updating the watching of an anime that appears in the most popular and highest rated anime arrays
-  // in the content browser)
-  public updateCommonAnimeWatchingStatus(animeListToCheck: Anime[], updatedAnime: Anime): boolean {
-    const animeIndex = animeListToCheck.findIndex(element => element.id === updatedAnime.id);
-    if (animeIndex !== -1) {
-      animeListToCheck[animeIndex].watching = updatedAnime.watching;
-      return true;
-    } else {
-      return false;
-    }
   }
 }

@@ -1,6 +1,7 @@
 import { AfterViewChecked, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Anime } from '../models/anime.model';
+import { FirestoreService } from '../services/firestore.service';
 import { KitsuService } from '../services/kitsu.service';
 
 @Component({
@@ -14,10 +15,10 @@ export class ContentBrowserComponent implements OnInit {
   public highestRatedAnime: Anime[];
   public topCurrentAnime: Anime[];
 
-  public constructor(private route: ActivatedRoute, private kitsuService: KitsuService, private cdRef: ChangeDetectorRef) { }
+  public constructor(private route: ActivatedRoute, private firestoreService: FirestoreService, private cdRef: ChangeDetectorRef) { }
 
   public ngOnInit(): void {
-    this.watchingAnime = this.kitsuService.watchingAnime;
+    this.watchingAnime = this.firestoreService.watchingAnime;
     this.popularAnime = this.route.snapshot.data['popularAnime'];
     this.highestRatedAnime = this.route.snapshot.data['highestRatedAnime'];
     this.topCurrentAnime = this.route.snapshot.data['topCurrentAnime'];
@@ -26,7 +27,7 @@ export class ContentBrowserComponent implements OnInit {
   public onAnimeUpdated(updatedAnime: Anime) {
     const animeArrays = [this.watchingAnime, this.popularAnime, this.highestRatedAnime, this.topCurrentAnime];
     animeArrays.forEach((animeArray) => {
-      this.kitsuService.updateCommonAnimeWatchingStatus(animeArray, updatedAnime);
+      this.firestoreService.updateCommonAnimeWatchingStatus(animeArray, updatedAnime);
     });
   }
 
