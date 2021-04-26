@@ -2,6 +2,7 @@
     width: 800px;
     height: 60px;
     font-size: 2.5em;
+    border: solid 3px var(--primary-color-shade)
 }
 
 .search-container {

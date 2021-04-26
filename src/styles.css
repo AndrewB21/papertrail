@@ -34,7 +34,19 @@
 
 body {
     padding: 20px;
+    height: 85vh;
+    position: relative;
     padding-top: 0;
     font-family: sans-serif;
     background-color: var(--background-color-shade)
+}
+
+.footer-container {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+footer {
+    width: 100%;
 }

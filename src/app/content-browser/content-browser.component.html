@@ -1,40 +1,41 @@
 <div class="content-browser">
     <app-anime-search></app-anime-search>
-    <h1>Check out anime others are enjoying</h1>
-    <section class="best-current">
-        <div class="dash-section-header">
-            <h2>Top Current Anime</h2>
-        </div>
-        <div class="dash-section-content" *ngFor="let anime of topCurrentAnime; let i = index">
-            <app-content-card
-            [index]="i"
-            [anime]="anime"
-            (animeUpdated)="onAnimeUpdated($event)"
-            ></app-content-card>
-        </div> 
-    </section>
-    <section class="highest-rated">
-        <div class="dash-section-header">
-            <h2>Highest Rated Anime</h2>
-        </div>
-        <div class="dash-section-content" *ngFor="let anime of highestRatedAnime; let i = index">
-            <app-content-card 
-            [index]="i"
-            [anime]="anime"
-            (animeUpdated)="onAnimeUpdated($event)"
-            ></app-content-card>
-        </div>
-    </section>
-    <section class="popular">
-        <div class="dash-section-header">
-            <h2>Most Popular Anime</h2>
-        </div>
-        <div class="dash-section-content" *ngFor="let anime of popularAnime; let i = index">
-            <app-content-card 
-            [index]="i"
-            [anime]="anime"
-            (animeUpdated)="onAnimeUpdated($event)"
-            ></app-content-card>
-        </div>
-    </section>
+    <div class="lists-container">
+        <section class="best-current">
+            <div>
+                <h2 class="list-header">Top Current Anime</h2>
+            </div>
+            <div class="list-content" *ngFor="let anime of topCurrentAnime; let i = index">
+                <app-content-card
+                [index]="i"
+                [anime]="anime"
+                (animeUpdated)="onAnimeUpdated($event)"
+                ></app-content-card>
+            </div> 
+        </section>
+        <section class="highest-rated">
+            <div>
+                <h2 class="list-header">Highest Rated Anime</h2>
+            </div>
+            <div class="list-content" *ngFor="let anime of highestRatedAnime; let i = index">
+                <app-content-card 
+                [index]="i"
+                [anime]="anime"
+                (animeUpdated)="onAnimeUpdated($event)"
+                ></app-content-card>
+            </div>
+        </section>
+        <section class="popular">
+            <div>
+                <h2 class="list-header">Most Popular Anime</h2>
+            </div>
+            <div class="list-content" *ngFor="let anime of popularAnime; let i = index">
+                <app-content-card 
+                [index]="i"
+                [anime]="anime"
+                (animeUpdated)="onAnimeUpdated($event)"
+                ></app-content-card>
+            </div>
+        </section>
+    </div>
 </div>

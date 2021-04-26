@@ -1,0 +1,19 @@
+h1 {
+    text-align: center;
+    color: var(--primary-color-shade);
+    font-weight: bold;
+    font-size: 72px;
+    font-style: italic;
+    margin-bottom: 50px;
+}
+
+h2 {
+    font-size: 36px;
+    text-align: center;
+    color: var(--primary-color-shade)
+}
+
+
+a {
+    text-decoration: underline;
+}
