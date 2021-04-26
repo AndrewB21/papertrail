@@ -85,7 +85,11 @@ input {
 
 .google-chart{
     width: 100%;
-    height: 90%;
+    /* height: 90%; */
+}
+
+#google-visualization-errors-all-1 {
+    display: none;
 }
 
 .entries-container {

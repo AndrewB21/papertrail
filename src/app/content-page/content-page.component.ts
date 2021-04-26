@@ -19,7 +19,7 @@ export class ContentPageComponent implements OnInit {
   public immersionEntryForm: FormGroup;
   public chartType = ChartType.LineChart
   public chartData;
-  public dataReady = false;
+  public displayChart = false;
   public entryListStatus = 'hidden';
   public entryFormStatus = 'hidden';
   public entryListClass = `entry-list ${this.entryListStatus}`;
@@ -54,8 +54,16 @@ export class ContentPageComponent implements OnInit {
       this.firestoreService.getImmersionEntries(this.anime.attributes.slug).subscribe((immersionEntries) => {
         this.immersionEntries = immersionEntries;
         this.immersionEntries.valueChanges().subscribe((res) => {
-          this.chartData = Object.entries(res).sort();
-          this.dataReady = true;
+          if (res) {
+            this.chartData = Object.entries(res).sort();
+            
+            // Check for empty chart data that could occurr when the only entry for an anime is deleted
+            if (this.chartData.length > 0) {
+              this.displayChart = true;
+            }
+          } else {
+            this.chartData = []
+          }
         });
       });
     });
@@ -73,7 +81,7 @@ export class ContentPageComponent implements OnInit {
     const finalizeSubmit = () => {
       let docData = { }
       docData[this.immersionEntryForm.value.date] = this.immersionEntryForm.value.length;
-      this.immersionEntries.update(docData);
+      this.immersionEntries.set(docData, {merge: true});
       this.immersionEntryForm.reset();
       this.immersionEntryForm.patchValue({length: 0});
     }
