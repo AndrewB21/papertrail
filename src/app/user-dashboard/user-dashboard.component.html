@@ -29,7 +29,7 @@
                             <span [routerLink]="['/content', anime.attributes.slug]">Details</span>
                         </div>
                         <div class="lib-content-link" fxFlex="110px">
-                            <span>Synopsis</span>
+                            <span (click)="openSynopsis()">Synopsis</span>
                         </div>
                         <div class="dropdown-menu" fxFlex="75px">
                             <mat-icon class="menu-btn" [matMenuTriggerFor]="menu" (click)="anime.menuOptions = setDropdownMenuOptions(anime)">more_horiz</mat-icon>
@@ -72,7 +72,7 @@
             <div class="dropdown-menu" fxFlex="75px">
                 <mat-icon class="menu-btn" [matMenuTriggerFor]="menu" (click)="anime.menuOptions = setDropdownMenuOptions(anime)">more_horiz</mat-icon>
                 <mat-menu #menu="matMenu">
-                    <span mat-menu-item>Synopsis</span>
+                    <span (click)="openSynopsis()" mat-menu-item>Synopsis</span>
                     <button *ngFor="let option of anime.menuOptions" (click)="option.action(anime.attributes.slug, option.list)"mat-menu-item>{{option.text}}</button>
                 </mat-menu>
             </div>
@@ -100,7 +100,7 @@
                 <mat-icon class="menu-btn" [matMenuTriggerFor]="menu" (click)="anime.menuOptions = setDropdownMenuOptions(anime)">more_horiz</mat-icon>
                 <mat-menu #menu="matMenu">
                     <span [routerLink]="['/content', anime.attributes.slug]" mat-menu-item>Details</span>
-                    <span mat-menu-item>Synopsis</span>
+                    <span (click)="openSynopsis()" mat-menu-item>Synopsis</span>
                     <button *ngFor="let option of anime.menuOptions" (click)="option.action(anime.attributes.slug, option.list)"mat-menu-item>{{option.text}}</button>
                 </mat-menu>
             </div>
@@ -116,9 +116,9 @@
                <mat-icon>expand_more</mat-icon>
             </span>
             <mat-menu #headerMenu="matMenu">
-                <span mat-menu-item>Watching Now</span>
-                <span mat-menu-item>Watch List</span>
-                <span mat-menu-item>Finished</span>
+                <span mat-menu-item (click)="setSelectedAnimeList(AnimeLists.WATCHING)">Watching Now</span>
+                <span mat-menu-item (click)="setSelectedAnimeList(AnimeLists.WATCHLIST)">Watch List</span>
+                <span mat-menu-item (click)="setSelectedAnimeList(AnimeLists.FINISHED)">Finished</span>
             </mat-menu>
         </div>
     </div>
@@ -144,7 +144,7 @@
                 <mat-icon class="menu-btn" [matMenuTriggerFor]="menu" (click)="anime.menuOptions = setDropdownMenuOptions(anime)">more_horiz</mat-icon>
                 <mat-menu #menu="matMenu">
                     <span [routerLink]="['/content', anime.attributes.slug]" mat-menu-item>Details</span>
-                    <span mat-menu-item>Synopsis</span>
+                    <span (click)="openSynopsis()" mat-menu-item>Synopsis</span>
                     <button *ngFor="let option of anime.menuOptions" (click)="option.action(anime.attributes.slug, option.list)"mat-menu-item>{{option.text}}</button>
                 </mat-menu>
             </div>

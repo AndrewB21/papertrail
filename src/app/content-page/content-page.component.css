@@ -30,6 +30,8 @@
     margin-top: 0;
     margin-bottom: 5px;
     grid-row: 1 / span 2;
+    color: var(--primary-color-shade);
+    font-weight: bold;
 }
 .content-description {
     margin-top: 0px;
@@ -49,6 +51,8 @@
 .immersion-title {
     text-transform: uppercase;
     text-align: center;
+    color: var(--primary-color-shade);
+    font-weight: bold;
 }
 
 .immersion-graph {

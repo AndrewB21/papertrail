@@ -2,6 +2,7 @@ import { AfterViewChecked, Component, EventEmitter, Input, OnInit, Output, Chang
 import { Anime } from 'src/app/models/anime.model';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { KitsuService } from 'src/app/services/kitsu.service';
+import { SnackBarService } from 'src/app/services/snackbar.service';
 
 @Component({
   selector: 'app-content-card',
@@ -16,7 +17,10 @@ export class ContentCardComponent implements OnInit, AfterViewChecked {
   @Output() public removeFromWatching = new EventEmitter<Anime>();
   public cardTitle: string;
 
-  public constructor(private firestoreService: FirestoreService, private kitsuService: KitsuService, private cdRef: ChangeDetectorRef) { }
+  public constructor(
+    private firestoreService: FirestoreService,
+    private snackbarService: SnackBarService
+  ) { }
 
   public ngOnInit(): void {
     if (this.anime.watching === undefined) {
@@ -44,6 +48,7 @@ export class ContentCardComponent implements OnInit, AfterViewChecked {
     this.firestoreService.addAnimeToList(this.anime.attributes.slug, 'watching').subscribe((res) => {
       if (res) {
         this.animeUpdated.emit(this.anime);
+        this.snackbarService.openSnackBar("Successfully added anime to watching.");
       }
     })
   }
@@ -56,5 +61,7 @@ export class ContentCardComponent implements OnInit, AfterViewChecked {
     // Update the watchingAnime list in KitsuService
     const kitsuServiceAnimeIndex = this.firestoreService.watchingAnime.findIndex(element => element.id === this.anime.id);
     this.firestoreService.watchingAnime.splice(kitsuServiceAnimeIndex, 1);
+
+    this.snackbarService.openSnackBar("Successfully removed anime from watching.");
   }
 }

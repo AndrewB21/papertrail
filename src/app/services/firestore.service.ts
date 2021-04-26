@@ -8,6 +8,7 @@ import { map } from 'rxjs/internal/operators/map';
 import { switchMap } from 'rxjs/operators';
 import { Anime } from '../models/anime.model';
 import { KitsuService } from './kitsu.service';
+import { SnackBarService } from './snackbar.service';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,8 @@ export class FirestoreService {
   public constructor(
     private firestore: AngularFirestore,
     private afAuth: AngularFireAuth,
-    private kitsuService: KitsuService
+    private kitsuService: KitsuService,
+    private snackbarService: SnackBarService,
   ) { }
 
   public addUserToUserAnime(signInSuccessData: FirebaseUISignInSuccessWithAuthResult) {
@@ -189,6 +191,7 @@ export class FirestoreService {
 
   public initializeList(listName: string): void {
     if (this.validListNames.find(element => element === listName)) {
+      this.snackbarService.openSnackBar("Please wait, initializing list.");
       const initializationSubscription = this.getSlugsFromList(listName).subscribe((animeSlugs) => {
         console.log(animeSlugs);
         const animeObservables = this.kitsuService.getMultipleAnimeBySlugs(Object.keys(animeSlugs));

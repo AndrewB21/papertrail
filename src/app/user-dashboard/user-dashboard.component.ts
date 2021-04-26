@@ -2,6 +2,7 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { Component, OnInit } from '@angular/core';
 import { Anime } from '../models/anime.model';
 import { FirestoreService } from '../services/firestore.service';
+import { SnackBarService } from '../services/snackbar.service';
 
 @Component({
   selector: 'app-user-dashboard',
@@ -23,6 +24,7 @@ export class UserDashboardComponent implements OnInit {
   public constructor(
     private firestoreService: FirestoreService,
     private bpObserver: BreakpointObserver,
+    private snackbarService: SnackBarService,
   ) { }
 
   public ngOnInit(): void {
@@ -82,18 +84,29 @@ export class UserDashboardComponent implements OnInit {
     });
   }
 
-  public addToList(animeSlug: string, listName: string, ): void {
-    
-    this.firestoreService.addAnimeToList(animeSlug, listName).subscribe();
+  public openSynopsis() {
+    this.snackbarService.openSnackBar("Synopses are not available yet. Check back soon!")
+    console.log('hhehfkdajh')
   }
 
   public removeFromList(animeSlug: string, listName: string): void {
-    this.firestoreService.removeAnimeFromList(animeSlug, listName).subscribe();
+    this.firestoreService.removeAnimeFromList(animeSlug, listName).subscribe((res) => {
+      if (res) { 
+        this.snackbarService.openSnackBar(`Successfully removed anime from list.`);
+      }
+    });
   }
 
   public moveToNewList(animeSlug: string, sourceListName: string, destinationListName: string): void {
-    this.firestoreService.removeAnimeFromList(animeSlug, sourceListName).subscribe();
-    this.firestoreService.addAnimeToList(animeSlug, destinationListName).subscribe();
+    this.firestoreService.removeAnimeFromList(animeSlug, sourceListName).subscribe((removeResponse) => {
+      if (removeResponse) {
+        this.firestoreService.addAnimeToList(animeSlug, destinationListName).subscribe((addResponse) => {
+          if (addResponse) {
+            this.snackbarService.openSnackBar(`Successfully moved anime to new list.`);
+          }
+        });
+      }
+    });
   }
 
   public addToWatchList(animeSlug: string): void {
@@ -120,7 +133,7 @@ export class UserDashboardComponent implements OnInit {
         break;
     }
     this.firestoreService.initializeList(selectedListName);
-    console.log('refreshing')
+    this.snackbarService.openSnackBar("Please wait, refreshing list.")
   }
 
   public setAnimeTitle(anime: Anime) {
