@@ -21,6 +21,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { GoogleChartsModule } from 'angular-google-charts'
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { LayoutModule } from '@angular/cdk/layout';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 const firebaseUiAuthConfig: firebaseui.auth.Config = {
   signInFlow: 'popup',
@@ -53,6 +54,7 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
     MatMenuModule,
     MatButtonModule,
     MatIconModule,
+    MatSnackBarModule,
     BrowserAnimationsModule,
     GoogleChartsModule,
     FlexLayoutModule,
