@@ -1,56 +1,40 @@
 .content-details-page {
-    display: flex;
-    flex-direction: row;
-    margin: 10vh auto;
-    width: 90vw;
-    height: 85vh;
-}
-
-.content-details {
-    width: 47.5%;
-    height: 100%;
-    display: grid;
-    grid-template-columns: 299px 1fr;
-    grid-template-rows: repeat(8, 52.125px);
-}
-
-.immersion-details {
-    width: 47.5%;
-    height: 100%;
-    margin-left: auto;
+    height: 50vh;
 }
 
 .content-poster {
-    grid-row: 1 / span 2;
-    margin-left: 15px;
-    margin-top: 10px;  
+    max-height: 402px;
 }
+
+.content-titles {
+    height: 15%;
+}
+
+.content-text {
+    height: 90%;
+}
+
 .content-title {
     text-align: center;
     margin-top: 0;
     margin-bottom: 5px;
-    grid-row: 1 / span 2;
     color: var(--primary-color-shade);
     font-weight: bold;
 }
 .content-description {
-    margin-top: 0px;
+    font-size: 1.5em;
     padding: 15px;
-    overflow: hidden;
-    grid-column: 2;
-    grid-row: 3 / span 6;
+    height: 70%;
     overflow: scroll;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
 }
 
 .content-description::-webkit-scrollbar {
     display: none;
 }
 
+
 .immersion-title {
     text-transform: uppercase;
-    text-align: center;
     color: var(--primary-color-shade);
     font-weight: bold;
 }
@@ -88,8 +72,9 @@ input {
 }
 
 .google-chart{
-    width: 100%;
-    /* height: 90%; */
+    width: 80%;
+    height: 90%;
+    max-width: 500px;
 }
 
 #google-visualization-errors-all-1 {
@@ -147,27 +132,50 @@ button {
     background-color: var(--primary-color) !important;
 }
 
-.small-screen-msg {
-    font-size: 48px;
-    font-weight: bold;
-    text-align: center;
-    color: var(--primary-color);
-}
+@media only screen and (max-width: 400px) {
+    .google-chart {
+        max-width: 320px;
+        width: 95%;
+        margin-left: -15px;
+    }
 
-@media only screen and (max-width: 1150px) {
-    .small-screen-msg {
-        font-size: 36px;
+    .entry-list-toggle, .entry-form-toggle {
+        font-size: 16px;
+        margin-bottom: 5px;
     }
 }
 
 @media only screen and (max-width: 800px) {
-    .small-screen-msg {
-        font-size: 28px;
+    .content-description {
+        font-size: 1em;
+        padding: 10px;
+        height: 75%;
+        margin-top: 20px;
+    }
+
+    .content-title, .immersion-title {
+        font-size: 16px;
     }
 }
 
-@media only screen and (max-width: 625px) {
-    .small-screen-msg {
-        font-size: 20px;
+@media only screen and (max-width: 1368px) {
+    .content-details-page {
+        height: 90vh;
     }
 }
+
+@media only screen and (max-width: 1600px) {
+    .content-description {
+        font-size: 1.2em;
+    }
+
+    .immersion-details, .immersion-graph {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .immersion-graph {
+        height: 80%;
+    }
+}
+
