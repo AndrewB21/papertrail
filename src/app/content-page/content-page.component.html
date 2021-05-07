@@ -1,61 +1,57 @@
-<ng-container *ngIf="!smallScreen else smallScreenTemplate">
-    <div class="content-details-page" *ngIf="anime">
-        <div class="content-details">
-            <img class="content-poster" src='{{anime.attributes.posterImage.small}}'>
+<div class="content-details-page" *ngIf="anime" [fxLayout]="activeFlexSettings.pageLayout" [fxLayoutGap]="activeFlexSettings.containers.gap">
+    <div class="content-details" [fxFlex]="activeFlexSettings.containers.contentDetails" [fxLayout]="activeFlexSettings.contentDetails.layout">
+        <img class="content-poster" *ngIf="!isMobileScreen" src='{{anime.attributes.posterImage.small}}' [fxFlex]="activeFlexSettings.contentDetails.posterImage">
+        <div class="content-text" [fxFlex]="activeFlexSettings.contentDetails.contentText">
             <div class="content-titles">
                 <h1 class="content-title jp">{{anime.attributes.titles.ja_jp}}</h1>
                 <h2 class="content-title en">({{anime.attributes.titles.en ? anime.attributes.titles.en : anime.attributes.titles.en_us}})</h2>
             </div>
             <p class="content-description">{{anime.attributes.description}}</p>
         </div>
-        <div class="immersion-details">
-            <h1 class="immersion-title">{{anime.attributes.titles.ja_jp}} immersion history</h1>
-            <h2 *ngIf="!displayChart || chartData === []">No immersion data found. Add some below!</h2>
-            <div class="immersion-graph">
-                <google-chart [type]="chartType" [data]="chartData" [ngStyle]="{ 'height': 'chartDimesions.height'}" *ngIf="displayChart"></google-chart>
-                <div class="entries-container" fxLayout="row" fxLayoutGap="50px">
-                    <div class="entries-list-container" flex="50%" *ngIf="displayChart"> 
-                        <span class="entry-list-toggle" (click)="toggleEntryList()">{{entryListStatus === 'hidden' ? 'View' : 'Hide'}} Entry Data</span>
-                        <div [ngClass]="entryListClass">
-                            <ul *ngFor="let data of chartData">
-                                <p>{{data[0]}} - {{data[1]}} minutes</p>
-                            </ul>
-                        </div>
+    </div>
+    <div class="immersion-details" [fxFlex]="activeFlexSettings.containers.immersionDetails">
+        <h1 class="immersion-title">{{anime.attributes.titles.ja_jp}} immersion history</h1>
+        <h2 *ngIf="!displayChart || chartData === []">No immersion data found. Add some below!</h2>
+        <div class="immersion-graph">
+            <google-chart #immersionChart [type]="chartType" [data]="chartData" [ngStyle]="{ 'height': 'chartDimesions.height'}" *ngIf="displayChart"></google-chart>
+            <div class="entries-container" [fxLayout]="activeFlexSettings.immersionDetails.entriesContainerLayout">
+                <div class="entry-form-container" >
+                    <span class="entry-form-toggle" (click)="toggleEntryForm()">{{entryFormStatus === 'hidden' ? 'Submit a new entry' : 'Hide entry form'}}</span>
+                    <div [ngClass]="entryFormClass">
+                        <form [formGroup]="immersionEntryForm" (ngSubmit)="submitEntry()">
+                            <div class="form-group">
+                                <mat-form-field floatLabel="always">
+                                    <mat-label>Date</mat-label>
+                                    <input matInput
+                                        class="date-input"
+                                        value="{{immersionEntryForm['date']}}"
+                                        formControlName="date"
+                                        type="date"
+                                    >
+                                </mat-form-field>
+                                <mat-form-field>
+                                    <mat-label class="length-label">Immersion Length (minutes)</mat-label>
+                                    <input matInput
+                                        class="length-input"
+                                        value="{{immersionEntryForm['length']}}"
+                                        formControlName="length"
+                                        type="number"
+                                    >
+                                </mat-form-field>
+                            </div>
+                            <button mat-raised-button color="primary" type="submit">Submit</button>
+                        </form>
                     </div>
-                    <div class="entry-form-container" flex="50%">
-                        <span class="entry-form-toggle" (click)="toggleEntryForm()">{{entryFormStatus === 'hidden' ? 'Submit a new entry' : 'Hide entry form'}}</span>
-                        <div [ngClass]="entryFormClass">
-                            <form [formGroup]="immersionEntryForm" (ngSubmit)="submitEntry()">
-                                <div class="form-group" fxLayout="row">
-                                    <mat-form-field floatLabel="always">
-                                        <mat-label>Date</mat-label>
-                                        <input matInput
-                                            class="date-input"
-                                            value="{{immersionEntryForm['date']}}"
-                                            formControlName="date"
-                                            type="date"
-                                        >
-                                    </mat-form-field>
-                                    <mat-form-field>
-                                        <mat-label class="length-label">Immersion Length (minutes)</mat-label>
-                                        <input matInput
-                                            class="length-input"
-                                            value="{{immersionEntryForm['length']}}"
-                                            formControlName="length"
-                                            type="number"
-                                        >
-                                    </mat-form-field>
-                                </div>
-                                <button mat-raised-button color="primary" type="submit">Submit</button>
-                            </form>
-                        </div>
+                </div>
+                <div class="entries-list-container" *ngIf="displayChart"> 
+                    <span class="entry-list-toggle" (click)="toggleEntryList()">{{entryListStatus === 'hidden' ? 'View' : 'Hide'}} Entry Data</span>
+                    <div [ngClass]="entryListClass">
+                        <ul *ngFor="let data of chartData">
+                            <p>{{data[0]}} - {{data[1]}} minutes</p>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</ng-container>
-
-<ng-template #smallScreenTemplate>
-    <h1 class="small-screen-msg">Support for smaller screens is coming soon!</h1>
-</ng-template>
+</div>

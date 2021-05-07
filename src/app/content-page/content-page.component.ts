@@ -1,8 +1,8 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { ChartType } from 'angular-google-charts';
+import { ChartType, GoogleChartComponent } from 'angular-google-charts';
 import { Anime } from '../models/anime.model';
 import { FirestoreService } from '../services/firestore.service';
 import { KitsuService } from '../services/kitsu.service';
@@ -13,6 +13,7 @@ import { KitsuService } from '../services/kitsu.service';
   styleUrls: ['./content-page.component.css']
 })
 export class ContentPageComponent implements OnInit {
+  @ViewChild('immersionChart', {static: false}) immersionChart: GoogleChartComponent;
   public anime: Anime;
   public watching: boolean;
   public immersionEntries;
@@ -20,11 +21,13 @@ export class ContentPageComponent implements OnInit {
   public chartType = ChartType.LineChart
   public chartData;
   public displayChart = false;
+  public isMobileScreen = false;
   public entryListStatus = 'hidden';
   public entryFormStatus = 'hidden';
   public entryListClass = `entry-list ${this.entryListStatus}`;
   public entryFormClass = `entry-form ${this.entryFormStatus}`;
-  public smallScreen = false;
+  public FlexSettings;
+  public activeFlexSettings;
 
   public constructor(
     private route: ActivatedRoute, 
@@ -35,12 +38,78 @@ export class ContentPageComponent implements OnInit {
   ) { }
 
   public ngOnInit(): void {
-    this.bpObserver.observe(['(max-width: 1368px)']).subscribe((result) => {
+    // Ensure that the chart is redrawn on window resize
+    window.addEventListener('resize', () => {
+      this.immersionChart.chartWrapper.draw();
+    })
+
+    // Initialize and freeze FlexSettings for easy switching between views
+    this.FlexSettings = {
+      mobileScreen: {
+        pageLayout: 'column',
+        containers: {
+          contentDetails: '49%',
+          immersionDetails: '49%',
+          gap: '2%',
+        },
+        contentDetails: {
+          layout: 'row',
+          posterImage: '284px',
+          contentText: 'calc(70% - 284px)',
+        },
+        immersionDetails: {
+          entriesContainerLayout: 'column',
+        }
+      },
+      smallScreen: {
+        pageLayout: 'column',
+        containers: {
+          contentDetails: '49%',
+          immersionDetails: '49%',
+          gap: '2%',
+        },
+        contentDetails: {
+          layout: 'row',
+          posterImage: '284px',
+          contentText: 'calc(70% - 284px)',
+        },
+        immersionDetails: {
+          entriesContainerLayout: 'row',
+        }
+      },
+      largeScreen: {
+        pageLayout: 'row',
+        containers: {
+          contentDetails: '48%',
+          immersionDetails: '45%',
+          gap: '1%',
+        },
+        contentDetails: {
+          layout: 'row',
+          posterImage: '284px',
+          contentText: 'calc(70% - 284px)',
+        },
+        immersionDetails: {
+          entriesContainerLayout: 'row',
+        }
+      },
+    }
+    Object.freeze(this.FlexSettings);
+
+    // Set breakpoints for switching between mobile and desktop view
+
+    this.bpObserver.observe(['(max-width: 1368px)', '(max-width: 800px)']).subscribe((result) => {
       const breakpoints = result.breakpoints;
-      if (breakpoints['(max-width: 1368px)']) {
-        this.smallScreen = true;
+      if (breakpoints['(max-width: 800px)']) {
+        this.isMobileScreen = true;
+        this.activeFlexSettings = this.FlexSettings.mobileScreen;
+      }
+      else if (breakpoints['(max-width: 1368px)']) {
+        this.activeFlexSettings = this.FlexSettings.smallScreen;
+        this.isMobileScreen = false;
       } else {
-        this.smallScreen = false;
+        this.activeFlexSettings = this.FlexSettings.largeScreen;
+        this.isMobileScreen = false;
       }
     });
 
