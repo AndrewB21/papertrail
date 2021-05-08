@@ -7,10 +7,25 @@
     color: var(--primary-color-shade);
     font-weight: bold;
 }
-.list-content {
-    display: inline-flex;
-}
 
 .list-section {
     margin: 40px 0;
 }
+
+.list-content {
+    width: 100%;
+    overflow: scroll;
+}
+
+@media only screen and (max-width: 410px) {
+    .list-header {
+        font-size: 28px;
+    }
+}
+
+@media only screen and (max-width: 325px) {
+    .list-header {
+        font-size: 22px;
+    }
+}
+
