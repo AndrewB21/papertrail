@@ -2,9 +2,10 @@
     <div [ngClass]="containerClass">
         <input #input class="search-input" type="text" placeholder="Search for an anime">
         <div class="search-results" *ngIf="searchResults != null">
-            <h2>Here's what we found:</h2>
-            <div class="dash-section-content" *ngFor="let anime of searchResults; let i = index">
+            <h2 class="list-header">Here's what we found:</h2>
+            <div class="list-content" fxLayout="row">
                 <app-content-card
+                *ngFor="let anime of searchResults; let i = index"
                 [index]="i"
                 [anime]="anime"></app-content-card>
             </div>

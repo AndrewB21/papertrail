@@ -76,3 +76,34 @@
 .content-card-button:hover {
     background: rgba(0,0,0,0.9);
 }
+
+@media only screen and (max-width: 600px) {
+    .content-card {
+        width: 150px;
+        height: 200px;
+    }
+
+    .content-description {
+        font-size: 0.9em;
+    }
+
+    .content-card-button {
+        font-size: 0.7em;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+    .content-card {
+        width: 125px;
+        height: 175px;
+    }
+
+    .content-card-button {
+        font-size: 0.6em;
+    }
+
+    .content-card-button {
+        border: solid 2px white;
+        height: 20px;
+    }
+}
