@@ -14,7 +14,7 @@
 
 .list-content {
     width: 100%;
-    overflow: scroll;
+    overflow-x: auto;
 }
 
 @media only screen and (max-width: 410px) {

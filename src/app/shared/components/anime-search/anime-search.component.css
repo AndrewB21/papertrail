@@ -12,11 +12,11 @@
 }
 
 .expanded {
-    height: 300px;
+    height: 400px;
 }
 
 .list-header {
-    margin-top: 5px;
+    margin-top: 10px;
     font-size: 36px;
     color: var(--primary-color-shade);
     font-weight: bold;
@@ -24,8 +24,16 @@
 
 .list-content {
     width: 100%;
-    overflow: scroll;
+    overflow-x: auto;
 }
+
+@media only screen and (max-width: 600px) {
+    .expanded {
+        height: 325px;
+    }
+}
+
+
 
 @media only screen and (max-width: 425px) {
     .search-input {
@@ -36,6 +44,12 @@
 @media only screen and (max-width: 410px) {
     .list-header {
         font-size: 26px;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+    .expanded {
+        height: 250px;
     }
 }
 
