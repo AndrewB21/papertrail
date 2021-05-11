@@ -22,8 +22,36 @@
     transition: all 0.5s;
 }
 
+.register-msg {
+    font-size: 18px;
+    text-align: center;
+    color: var(--primary-color-shade);
+}
+
+@media only screen and (max-width: 600px) {
+    .register-msg {
+        font-size: 14px;
+    }
+}
+
 @media only screen and (max-width: 550px) {
     .login-heading {
         font-size: 36px;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .register-msg {
+        font-size: 12px;
+    }
+}
+
+@media only screen and (max-width: 425px) {
+    .login-heading {
+        font-size: 24px;
+    }
+
+    .login-heading::after {
+        height: 4px;
     }
 }
