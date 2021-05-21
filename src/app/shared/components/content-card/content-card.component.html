@@ -3,8 +3,8 @@ class="content-card"
 [ngStyle]="{'background-image': 'url(' + anime.attributes.posterImage.small + ')'}">
     <div class="content-card-internal">
         <p class="content-title">{{cardTitle}}</p>
-        <p class="content-description">{{anime.attributes.description}}</p>
-        <div class="buttons-container">
+        <p class="content-description" [ngStyle]="{'height': descriptionHeight}">{{anime.attributes.description}}</p>
+        <div class="buttons-container" *ngIf="authenticated">
             <button *ngIf="anime.watching != null && !anime.watching; else removeFromWatching" 
             (click)="addAnimeToWatching()" 
             class="content-card-button">Add</button>
