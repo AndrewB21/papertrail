@@ -86,7 +86,6 @@ export class UserDashboardComponent implements OnInit {
 
   public openSynopsis() {
     this.snackbarService.openSnackBar("Synopses are not available yet. Check back soon!")
-    console.log('hhehfkdajh')
   }
 
   public removeFromList(animeSlug: string, listName: string): void {

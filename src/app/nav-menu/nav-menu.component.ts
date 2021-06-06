@@ -26,7 +26,6 @@ export class NavMenuComponent implements OnInit {
   public signOut() {
     this.authService.signOut().then(res => {
       this.firestoreService.clearAllLists();
-      console.log(this.firestoreService.watchingAnime);
       this.authenticated = false;
       this.router.navigate(['/']);
 

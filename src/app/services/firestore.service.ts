@@ -193,7 +193,6 @@ export class FirestoreService {
     if (this.validListNames.find(element => element === listName)) {
       this.snackbarService.openSnackBar("Please wait, initializing list.");
       const initializationSubscription = this.getSlugsFromList(listName).subscribe((animeSlugs) => {
-        console.log(animeSlugs);
         const animeObservables = this.kitsuService.getMultipleAnimeBySlugs(Object.keys(animeSlugs));
         animeObservables.forEach((animeObservable) => {
           animeObservable.subscribe((animeResponse) => {
