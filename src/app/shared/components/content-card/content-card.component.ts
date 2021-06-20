@@ -1,5 +1,6 @@
 import { AfterViewChecked, Component, EventEmitter, Input, OnInit, Output, ChangeDetectorRef } from '@angular/core';
 import { Anime } from 'src/app/models/anime.model';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { KitsuService } from 'src/app/services/kitsu.service';
 import { SnackBarService } from 'src/app/services/snackbar.service';
@@ -19,13 +20,19 @@ export class ContentCardComponent implements OnInit, AfterViewChecked {
 
   public constructor(
     private firestoreService: FirestoreService,
-    private snackbarService: SnackBarService
+    private snackbarService: SnackBarService,
+    private authService: AuthenticationService,
   ) { }
 
   public ngOnInit(): void {
-    if (this.anime.watching === undefined) {
-      this.anime.watching = this.firestoreService.watchingAnime.find(element => element.id === this.anime.id) ? true : false;
-    }
+    this.authService.checkAuthState().subscribe((res) => {
+      if (res){
+        if (this.anime.watching === undefined) {
+          this.anime.watching = this.firestoreService.watchingAnime.find(element => element.id === this.anime.id) ? true : false;
+        }
+      }
+    })
+    
     // Set the card title, trying different variations of the English titles first, and defaulting to the
     // fully Japanese title if an english title does not exist.
     const animeTitles = this.anime.attributes.titles;
