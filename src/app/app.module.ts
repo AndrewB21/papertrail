@@ -22,6 +22,7 @@ import { GoogleChartsModule } from 'angular-google-charts'
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 const firebaseUiAuthConfig: firebaseui.auth.Config = {
   signInFlow: 'popup',
@@ -60,7 +61,7 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
     FlexLayoutModule,
     LayoutModule,
   ],
-  providers: [],
+  providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
